@@ -204,7 +204,7 @@ const lugaresDestacados = [
   },
   {
     name: 'Montañita',
-    img: '/images/turismo-montañita.png',
+    img: '/images/turismo-montanita.png',
     distancia: 'A 45 min en auto',
     desc: 'El pueblo más bohemio de la costa: surf, artesanías, vida nocturna y playas de arena fina.',
     icon: 'fas fa-guitar',
