@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hotel Copacabana – Presentación TV</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    :root {
+      --morado:      #4E387E;
+      --morado-dark: #3a2762;
+      --naranja:     #F28E2E;
+      --amarillo:    #EAC832;
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Montserrat', sans-serif; background: #0e0520; cursor: none; }
+
+    /* ── SLIDESHOW ─────────────────────────────── */
+    #show { position: relative; width: 100%; height: 100%; overflow: hidden; }
+    .slide { position: absolute; inset: 0; opacity: 0; transition: opacity 1.2s ease; display: flex; align-items: center; justify-content: center; text-align: center; pointer-events: none; }
+    .slide.active { opacity: 1; z-index: 10; pointer-events: auto; }
+
+    /* ── BACKGROUNDS ───────────────────────────── */
+    .bg { position: absolute; inset: 0; background-size: cover; background-position: center; animation: kb 14s ease-in-out infinite alternate; }
+    @keyframes kb { from { transform: scale(1); } to { transform: scale(1.07); } }
+    .ov { position: absolute; inset: 0; }
+
+    /* ── CONTENT ───────────────────────────────── */
+    .cnt { position: relative; z-index: 2; width: 100%; max-width: 1400px; padding: 60px 80px; }
+
+    /* ── TYPOGRAPHY ────────────────────────────── */
+    .badge { display: inline-block; background: rgba(242,142,46,.18); border: 1px solid rgba(242,142,46,.4); color: var(--naranja); font-size: .7rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; padding: 5px 18px; border-radius: 50px; margin-bottom: 1.2rem; }
+    .hotel-name { font-family: 'Great Vibes', cursive; font-size: clamp(4rem,8vw,9rem); color: var(--naranja); text-shadow: 0 4px 24px rgba(0,0,0,.5); line-height: 1; margin-bottom: .4rem; }
+    .h-title { font-size: clamp(2rem,3.5vw,3.6rem); font-weight: 800; color: #fff; text-shadow: 0 3px 16px rgba(0,0,0,.4); margin-bottom: .8rem; }
+    .h-sub { font-size: clamp(.85rem,1.4vw,1.15rem); color: rgba(255,255,255,.78); max-width: 760px; margin: 0 auto 1.6rem; line-height: 1.75; }
+    .divider { width: 70px; height: 3px; background: var(--naranja); border-radius: 2px; margin: 1rem auto; }
+    .eyebrow { font-size: .72rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--amarillo); margin-bottom: .4rem; }
+
+    /* ── STATS ─────────────────────────────────── */
+    .stats { display: flex; justify-content: center; gap: 5rem; margin-top: 2.5rem; }
+    .s-num { font-size: clamp(2.2rem,4vw,3.8rem); font-weight: 800; color: var(--amarillo); line-height: 1; }
+    .s-ico { font-size: 1.4rem; color: rgba(234,200,50,.65); display: block; margin-bottom: .3rem; }
+    .s-lbl { font-size: .72rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.65); margin-top: .3rem; }
+
+    /* ── ROOM CARDS ────────────────────────────── */
+    .rooms-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.8rem; margin-top: 1.8rem; }
+    .rc { background: rgba(255,255,255,.08); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,.14); border-radius: 20px; overflow: hidden; text-align: left; }
+    .rc-ej { border-top: 4px solid var(--morado); }
+    .rc-ma { border-top: 4px solid var(--naranja); }
+    .rc-fa { border-top: 4px solid #2e7d32; }
+    .rc img { width: 100%; aspect-ratio: 1/1; object-fit: cover; display: block; }
+    .rc-body { padding: 1.1rem 1.3rem 1.4rem; }
+    .rc-type { font-size: .6rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--naranja); margin-bottom: .3rem; }
+    .rc-name { font-size: clamp(.95rem,1.3vw,1.15rem); font-weight: 800; color: #fff; margin-bottom: .6rem; }
+    .rc-amenities { font-size: .68rem; color: rgba(255,255,255,.55); line-height: 1.6; }
+
+    /* ── SERVICES ──────────────────────────────── */
+    .sv-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1.2rem; margin-top: 1.8rem; }
+    .sv-item { background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12); border-radius: 16px; padding: 1.4rem 1rem; }
+    .sv-ico { font-size: 1.8rem; color: var(--naranja); margin-bottom: .6rem; }
+    .sv-name { font-size: .78rem; font-weight: 700; color: #fff; }
+    .sv-desc { font-size: .62rem; color: rgba(255,255,255,.5); margin-top: .2rem; }
+
+    /* ── GALLERY MOSAIC ────────────────────────── */
+    .gal-mosaic {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      grid-template-rows: repeat(3,1fr);
+      gap: .9rem;
+      height: calc(100vh - 175px);
+      margin-top: 1rem;
+    }
+    .gal-main  { grid-row: 1 / 4; position: relative; border-radius: 16px; overflow: hidden; }
+    .gal-side  { position: relative; border-radius: 16px; overflow: hidden; }
+    .gal-mosaic img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .gal-caption {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: .5rem .9rem;
+      background: linear-gradient(transparent, rgba(0,0,0,.72));
+      color: #fff; font-size: .65rem; font-weight: 700;
+      letter-spacing: .06em; text-transform: uppercase;
+      border-radius: 0 0 16px 16px;
+    }
+    /* gradient fallback for gallery items */
+    .gal-main  { background: linear-gradient(135deg,#3a2762,#1a237e); }
+    .gal-side:nth-child(2) { background: linear-gradient(135deg,#1b5e20,#004d40); }
+    .gal-side:nth-child(3) { background: linear-gradient(135deg,#0d47a1,#006064); }
+    .gal-side:nth-child(4) { background: linear-gradient(135deg,#4a148c,#880e4f); }
+
+    /* ── TOURIST CARDS ─────────────────────────── */
+    .tur-row1 { display: grid; grid-template-columns: repeat(4,1fr); gap: 1.3rem; margin-top: 1.6rem; }
+    .tur-row2 { display: flex; justify-content: center; gap: 1.3rem; margin-top: 1.3rem; }
+    .tur-row2 .tur-card { width: calc(25% - .975rem); flex-shrink: 0; }
+    .tur-card { background: rgba(255,255,255,.08); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,.14); border-radius: 20px; overflow: hidden; text-align: left; }
+    .tur-img-wrap { position: relative; height: 210px; overflow: hidden; }
+    .tur-img-wrap img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 2; }
+    .tur-img-icon { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 2.4rem; color: rgba(255,255,255,.7); z-index: 1; }
+    /* gradient per card */
+    .ti-1 { background: linear-gradient(135deg,var(--morado-dark),#1a237e); }
+    .ti-2 { background: linear-gradient(135deg,#004d40,#00695c); }
+    .ti-3 { background: linear-gradient(135deg,#0d47a1,#1565c0); }
+    .ti-4 { background: linear-gradient(135deg,#1b5e20,#2e7d32); }
+    .ti-5 { background: linear-gradient(135deg,#4a148c,var(--morado)); }
+    .ti-6 { background: linear-gradient(135deg,#bf360c,#e64a19); }
+    .ti-7 { background: linear-gradient(135deg,#006064,#0097a7); }
+    .tur-body { padding: .8rem 1rem .9rem; }
+    .tur-name { font-size: .8rem; font-weight: 800; color: #fff; margin-bottom: .4rem; line-height: 1.2; }
+    .tur-dist { display: inline-flex; align-items: center; gap: 5px; font-size: .6rem; font-weight: 700; color: var(--amarillo); background: rgba(234,200,50,.12); border: 1px solid rgba(234,200,50,.25); border-radius: 50px; padding: 3px 10px; }
+
+    /* ── PLATOS TÍPICOS ────────────────────────── */
+    .platos-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1.6rem; margin-top: 1.8rem; }
+    .plato-card { background: rgba(255,255,255,.08); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,.14); border-radius: 20px; overflow: hidden; text-align: left; }
+    .plato-img-wrap { position: relative; height: 260px; overflow: hidden; }
+    .plato-img-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .plato-img-icon { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 3rem; }
+    /* per-dish gradient fallbacks */
+    .pi-1 { background: linear-gradient(135deg,#bf360c,#e65100); color: rgba(255,255,255,.6); }
+    .pi-2 { background: linear-gradient(135deg,#006064,#00838f); color: rgba(255,255,255,.6); }
+    .pi-3 { background: linear-gradient(135deg,#4e342e,#6d4c41); color: rgba(255,255,255,.6); }
+    .pi-4 { background: linear-gradient(135deg,#1b5e20,#33691e); color: rgba(255,255,255,.6); }
+    .plato-body { padding: 1rem 1.2rem 1.3rem; }
+    .plato-name { font-size: .92rem; font-weight: 800; color: #fff; margin-bottom: .35rem; }
+    .plato-desc { font-size: .65rem; color: rgba(255,255,255,.6); line-height: 1.55; }
+
+    /* ── CONTACT ───────────────────────────────── */
+    .contact-cards { display: flex; flex-direction: column; gap: 1.2rem; margin-top: 2rem; align-items: center; }
+    .cc { display: flex; flex-direction: column; align-items: center; text-align: center; gap: .5rem; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.18); border-radius: 16px; padding: 1.3rem 2.5rem; width: 580px; max-width: 90%; }
+    .cc-ic { width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0; }
+    .cc-ic.wa  { background: #25D366; color: #fff; }
+    .cc-ic.pin { background: var(--naranja); color: #fff; }
+    .cc-text h6 { font-size: .7rem; font-weight: 700; color: var(--amarillo); margin-bottom: 4px; letter-spacing: .08em; text-transform: uppercase; }
+    .cc-text p  { font-size: 1.05rem; font-weight: 600; color: #fff; margin: 0; }
+    .cta-btn { display: inline-block; margin-top: 2rem; background: var(--naranja); color: #fff; font-weight: 800; font-size: 1.05rem; letter-spacing: .06em; padding: 1rem 3rem; border-radius: 50px; box-shadow: 0 8px 32px rgba(242,142,46,.5); }
+
+    /* ── LOGO ──────────────────────────────────── */
+    .logo { height: 110px; width: auto; border-radius: 14px; margin-bottom: .8rem; }
+
+    /* ── PROGRESS BAR ──────────────────────────── */
+    #prog { position: fixed; bottom: 0; left: 0; height: 5px; background: linear-gradient(90deg,var(--morado),var(--naranja)); width: 0%; z-index: 100; transition: width linear; }
+
+    /* ── DOTS ──────────────────────────────────── */
+    #dots { position: fixed; bottom: 22px; right: 36px; z-index: 100; display: flex; gap: 8px; }
+    .dot { width: 9px; height: 9px; border-radius: 50%; background: rgba(255,255,255,.25); transition: background .3s, transform .3s; }
+    .dot.on { background: var(--naranja); transform: scale(1.3); }
+
+    /* ── HINT ──────────────────────────────────── */
+    #hint { position: fixed; bottom: 16px; left: 36px; z-index: 100; font-size: .62rem; font-weight: 600; letter-spacing: .1em; color: rgba(255,255,255,.3); text-transform: uppercase; }
+
+    /* ── ENTRANCE ANIMATION ────────────────────── */
+    @keyframes up { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
+    .slide.active .cnt > * { animation: up .7s ease forwards; opacity: 0; }
+    .slide.active .cnt > *:nth-child(1) { animation-delay: .15s; }
+    .slide.active .cnt > *:nth-child(2) { animation-delay: .3s; }
+    .slide.active .cnt > *:nth-child(3) { animation-delay: .45s; }
+    .slide.active .cnt > *:nth-child(4) { animation-delay: .6s; }
+    .slide.active .cnt > *:nth-child(5) { animation-delay: .75s; }
+  </style>
+</head>
+<body>
+<div id="show">
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- SLIDE 1 — BIENVENIDA                      -->
+  <!-- ══════════════════════════════════════════ -->
+  <div class="slide active" id="s0">
+    <div class="bg" style="background-image:url('/images/hero-bg.webp')"></div>
+    <div class="ov" style="background:linear-gradient(160deg,rgba(30,10,60,.88) 0%,rgba(78,56,126,.68) 45%,rgba(140,50,10,.5) 100%)"></div>
+    <div class="cnt">
+      <img class="logo" src="/logo2.png" alt="Logo Hotel Copacabana">
+      <p class="eyebrow"><i class="fas fa-star" style="margin-right:.5rem"></i>Fundado en 2005 · La Libertad, Ecuador</p>
+      <h1 class="hotel-name">Hotel Copacabana</h1>
+      <div class="divider"></div>
+      <p class="h-sub">Más de 20 años ofreciendo hospitalidad, confort y tranquilidad en la costa ecuatoriana</p>
+      <div class="stats">
+        <div><span class="s-ico"><i class="fas fa-award"></i></span><div class="s-num">20+</div><div class="s-lbl">Años de experiencia</div></div>
+        <div><span class="s-ico"><i class="fas fa-bed"></i></span><div class="s-num">35</div><div class="s-lbl">Habitaciones</div></div>
+        <div><span class="s-ico"><i class="fas fa-users"></i></span><div class="s-num">8.000+</div><div class="s-lbl">Clientes al año</div></div>
+        <div><span class="s-ico"><i class="fas fa-concierge-bell"></i></span><div class="s-num">24h</div><div class="s-lbl">Recepción</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- SLIDE 2 — HABITACIONES (sin precios)       -->
+  <!-- ══════════════════════════════════════════ -->
+  <div class="slide" id="s1">
+    <div class="bg" style="background-image:url('/images/marlibertad.png')"></div>
+    <div class="ov" style="background:linear-gradient(135deg,rgba(14,5,32,.88) 0%,rgba(58,39,98,.82) 50%,rgba(13,32,64,.88) 100%)"></div>
+    <div class="cnt">
+      <span class="badge">Alojamiento</span>
+      <h2 class="h-title">Nuestras Habitaciones</h2>
+      <div class="rooms-grid">
+        <div class="rc rc-ej">
+          <img src="/images/hab-ejecutiva.jpeg" alt="Habitación Ejecutiva" onerror="this.style.display='none'">
+          <div class="rc-body">
+            <div class="rc-type"><i class="fas fa-briefcase" style="margin-right:4px"></i>Negocios</div>
+            <div class="rc-name">Habitación Ejecutiva</div>
+            <div class="rc-amenities">WiFi · Aire acondicionado · Smart TV · Escritorio de trabajo</div>
+          </div>
+        </div>
+        <div class="rc rc-ma">
+          <img src="/images/hab-matrimonial.jpeg" alt="Habitación Matrimonial" onerror="this.style.display='none'">
+          <div class="rc-body">
+            <div class="rc-type"><i class="fas fa-heart" style="margin-right:4px"></i>Parejas</div>
+            <div class="rc-name">Habitación Matrimonial</div>
+            <div class="rc-amenities">Cama King · WiFi gratuito · Aire acondicionado · Smart TV</div>
+          </div>
+        </div>
+        <div class="rc rc-fa">
+          <img src="/images/hab-familiar.jpeg" alt="Habitación Familiar" onerror="this.style.display='none'">
+          <div class="rc-body">
+            <div class="rc-type"><i class="fas fa-people-roof" style="margin-right:4px"></i>Familias</div>
+            <div class="rc-name">Habitación Familiar</div>
+            <div class="rc-amenities">Múltiples camas · WiFi gratuito · Aire acondicionado · Smart TV</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- SLIDE 3 — SERVICIOS                       -->
+  <!-- ══════════════════════════════════════════ -->
+  <div class="slide" id="s2">
+    <div class="ov" style="background:linear-gradient(135deg,#08102e 0%,#1a0a2e 40%,var(--morado-dark) 100%)"></div>
+    <div class="cnt">
+      <span class="badge">Lo que ofrecemos</span>
+      <h2 class="h-title">Servicios del Hotel</h2>
+      <p class="h-sub">Todo lo que necesitas para una estadía perfecta en La Libertad</p>
+      <div class="sv-grid">
+        <div class="sv-item"><div class="sv-ico"><i class="fas fa-concierge-bell"></i></div><div class="sv-name">Recepción 24h</div><div class="sv-desc">Atención permanente</div></div>
+        <div class="sv-item"><div class="sv-ico"><i class="fas fa-wifi"></i></div><div class="sv-name">WiFi Gratuito</div><div class="sv-desc">Alta velocidad</div></div>
+        <div class="sv-item"><div class="sv-ico"><i class="fas fa-snowflake"></i></div><div class="sv-name">Aire Acondicionado</div><div class="sv-desc">Clima ideal</div></div>
+        <div class="sv-item"><div class="sv-ico"><i class="fas fa-shower"></i></div><div class="sv-name">Agua Caliente</div><div class="sv-desc">Servicio permanente</div></div>
+        <div class="sv-item"><div class="sv-ico"><i class="fas fa-tv"></i></div><div class="sv-name">Smart TV</div><div class="sv-desc">Entretenimiento</div></div>
+        <div class="sv-item"><div class="sv-ico"><i class="fas fa-car"></i></div><div class="sv-name">Parqueadero</div><div class="sv-desc">Espacio disponible</div></div>
+        <div class="sv-item"><div class="sv-ico"><i class="fas fa-mug-hot"></i></div><div class="sv-name">Zona de Café</div><div class="sv-desc">Disponible todo el día</div></div>
+        <div class="sv-item"><div class="sv-ico"><i class="fas fa-laptop-code"></i></div><div class="sv-name">Coworking</div><div class="sv-desc">Espacio de trabajo</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- SLIDE 4 — GALERÍA (mosaico mejorado)       -->
+  <!-- ══════════════════════════════════════════ -->
+  <div class="slide" id="s3">
+    <div class="ov" style="background:linear-gradient(160deg,rgba(20,8,50,.92) 0%,rgba(60,40,100,.85) 100%)"></div>
+    <div class="cnt" style="padding:28px 70px">
+      <span class="badge">Nuestras instalaciones</span>
+      <h2 class="h-title" style="font-size:clamp(1.4rem,2.6vw,2.4rem);margin-bottom:.4rem">Galería del Hotel Copacabana</h2>
+      <div class="gal-mosaic">
+        <div class="gal-main">
+          <img src="/images/galeria-7.jpeg" alt="" onerror="this.style.display='none'">
+          <div class="gal-caption">Exteriores del Hotel</div>
+        </div>
+        <div class="gal-side">
+          <img src="/images/hab-ejecutiva.jpeg" alt="" onerror="this.style.display='none'">
+          <div class="gal-caption">Habitación Ejecutiva</div>
+        </div>
+        <div class="gal-side">
+          <img src="/images/hab-matrimonial.jpeg" alt="" onerror="this.style.display='none'">
+          <div class="gal-caption">Habitación Matrimonial</div>
+        </div>
+        <div class="gal-side">
+          <img src="/images/hab-familiar.jpeg" alt="" onerror="this.style.display='none'">
+          <div class="gal-caption">Habitación Familiar</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- SLIDE 5 — SITIOS TURÍSTICOS (con fotos)   -->
+  <!-- ══════════════════════════════════════════ -->
+  <div class="slide" id="s4">
+    <div class="bg" style="background-image:url('/images/galeria-6.jpeg')"></div>
+    <div class="ov" style="background:linear-gradient(160deg,rgba(10,20,50,.93) 0%,rgba(50,20,80,.88) 55%,rgba(10,40,20,.85) 100%)"></div>
+    <div class="cnt" style="padding:38px 70px">
+      <span class="badge"><i class="fas fa-map-marked-alt" style="margin-right:.4rem"></i>Turismo</span>
+      <h2 class="h-title">Lugares Cercanos al Hotel</h2>
+      <!-- Fila 1: 4 lugares -->
+      <div class="tur-row1">
+        <div class="tur-card">
+          <div class="tur-img-wrap ti-1">
+            <div class="tur-img-icon"><i class="fas fa-person-walking"></i></div>
+            <img src="/images/turismo-libertad.png" alt="" onerror="this.style.display='none'">
+          </div>
+          <div class="tur-body">
+            <div class="tur-name">Malecón de La Libertad</div>
+            <span class="tur-dist"><i class="fas fa-location-dot"></i> A 3 min caminando</span>
+          </div>
+        </div>
+        <div class="tur-card">
+          <div class="tur-img-wrap ti-2">
+            <div class="tur-img-icon"><i class="fas fa-landmark"></i></div>
+            <img src="/images/turismo-museo.jpeg" alt="" onerror="this.style.display='none'">
+          </div>
+          <div class="tur-body">
+            <div class="tur-name">Museo Amantes de Sumpa</div>
+            <span class="tur-dist"><i class="fas fa-car"></i> A 5 min en auto</span>
+          </div>
+        </div>
+        <div class="tur-card">
+          <div class="tur-img-wrap ti-3">
+            <div class="tur-img-icon"><i class="fas fa-umbrella-beach"></i></div>
+            <img src="/images/turismo-salinas.jpeg" alt="" onerror="this.style.display='none'">
+          </div>
+          <div class="tur-body">
+            <div class="tur-name">Salinas</div>
+            <span class="tur-dist"><i class="fas fa-car"></i> A 15 min en auto</span>
+          </div>
+        </div>
+        <div class="tur-card">
+          <div class="tur-img-wrap ti-4">
+            <div class="tur-img-icon"><i class="fas fa-water"></i></div>
+            <img src="/images/turismo-ballenita.jpeg" alt="" onerror="this.style.display='none'">
+          </div>
+          <div class="tur-body">
+            <div class="tur-name">Ballenita</div>
+            <span class="tur-dist"><i class="fas fa-car"></i> A 10 min en auto</span>
+          </div>
+        </div>
+      </div>
+      <!-- Fila 2: 3 lugares centrados -->
+      <div class="tur-row2">
+        <div class="tur-card">
+          <div class="tur-img-wrap ti-5">
+            <div class="tur-img-icon"><i class="fas fa-mountain-sun"></i></div>
+            <img src="/images/turismo-punta-carnero.png" alt="" onerror="this.style.display='none'">
+          </div>
+          <div class="tur-body">
+            <div class="tur-name">Punta Carnero</div>
+            <span class="tur-dist"><i class="fas fa-car"></i> A 20 min en auto</span>
+          </div>
+        </div>
+        <div class="tur-card">
+          <div class="tur-img-wrap ti-6">
+            <div class="tur-img-icon"><i class="fas fa-binoculars"></i></div>
+            <img src="/images/turismo-chocolatera.jpeg" alt="" onerror="this.style.display='none'">
+          </div>
+          <div class="tur-body">
+            <div class="tur-name">La Chocolatera</div>
+            <span class="tur-dist"><i class="fas fa-car"></i> A 25 min en auto</span>
+          </div>
+        </div>
+        <div class="tur-card">
+          <div class="tur-img-wrap ti-7">
+            <div class="tur-img-icon"><i class="fas fa-guitar"></i></div>
+            <img src="/images/turismo-montañita.png" alt="" onerror="this.style.display='none'">
+          </div>
+          <div class="tur-body">
+            <div class="tur-name">Montañita</div>
+            <span class="tur-dist"><i class="fas fa-car"></i> A 45 min en auto</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- SLIDE 6 — PLATOS TÍPICOS                  -->
+  <!-- ══════════════════════════════════════════ -->
+  <div class="slide" id="s-comida">
+    <div class="bg" style="background-image:url('/images/turismo-libertad.png')"></div>
+    <div class="ov" style="background:linear-gradient(160deg,rgba(10,20,60,.88) 0%,rgba(30,10,60,.85) 55%,rgba(0,30,20,.82) 100%)"></div>
+    <div class="cnt" style="padding:45px 80px">
+      <span class="badge"><i class="fas fa-utensils" style="margin-right:.4rem"></i>Gastronomía local</span>
+      <h2 class="h-title">Platos Típicos de la Costa</h2>
+      <p class="h-sub" style="margin-bottom:0">La cocina costera ecuatoriana, una experiencia que no puedes perderte</p>
+      <div class="platos-grid">
+        <div class="plato-card">
+          <div class="plato-img-wrap pi-1">
+            <div class="plato-img-icon">🍲</div>
+            <img src="/images/plato-encebollado.jpeg" alt="Encebollado" onerror="this.style.display='none'">
+          </div>
+          <div class="plato-body">
+            <div class="plato-name">Encebollado</div>
+            <div class="plato-desc">Sopa de albacora con yuca, cebolla encurtida y limón. El desayuno más popular de Ecuador.</div>
+          </div>
+        </div>
+        <div class="plato-card">
+          <div class="plato-img-wrap pi-2">
+            <div class="plato-img-icon">🐟</div>
+            <img src="/images/plato-ceviche.jpeg" alt="Ceviche de pescado" onerror="this.style.display='none'">
+          </div>
+          <div class="plato-body">
+            <div class="plato-name">Ceviche de Pescado</div>
+            <div class="plato-desc">Pescado fresco marinado en limón con tomate, cebolla y cilantro. Fresco y delicioso.</div>
+          </div>
+        </div>
+        <div class="plato-card">
+          <div class="plato-img-wrap pi-3">
+            <div class="plato-img-icon">🌿</div>
+            <img src="/images/plato-bollo.jpeg" alt="Bollos" onerror="this.style.display='none'">
+          </div>
+          <div class="plato-body">
+            <div class="plato-name">Bollos</div>
+            <div class="plato-desc">Maíz molido relleno de pescado o mariscos, envuelto en hoja de plátano y cocido al vapor.</div>
+          </div>
+        </div>
+        <div class="plato-card">
+          <div class="plato-img-wrap pi-4">
+            <div class="plato-img-icon">🐠</div>
+            <img src="/images/pescado.jpeg" alt="Pescado entero" onerror="this.style.display='none'">
+          </div>
+          <div class="plato-body">
+            <div class="plato-name">Pescado Entero</div>
+            <div class="plato-desc">Pescado frito entero acompañado de patacones, arroz y ensalada. Sabor auténtico del mar.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- SLIDE 7 — CONTACTO / CTA                  -->
+  <!-- ══════════════════════════════════════════ -->
+  <div class="slide" id="s5">
+    <div class="bg" style="background-image:url('/images/about-hotel.jpeg')"></div>
+    <div class="ov" style="background:linear-gradient(135deg,rgba(30,10,60,.94) 0%,rgba(78,56,126,.9) 100%)"></div>
+    <div class="cnt">
+      <span class="badge">Reserva tu estadía</span>
+      <h2 class="h-title">¿Listo para hospedarte?</h2>
+      <h2 class="hotel-name" style="font-size:clamp(3rem,6vw,6rem)">Hotel Copacabana</h2>
+      <div class="divider"></div>
+      <div class="contact-cards">
+        <div class="cc">
+          <div class="cc-ic wa"><i class="fab fa-whatsapp"></i></div>
+          <div class="cc-text"><h6>WhatsApp · Respuesta inmediata</h6><p>+593 98 274 2999</p></div>
+        </div>
+        <div class="cc">
+          <div class="cc-ic pin"><i class="fas fa-map-marker-alt"></i></div>
+          <div class="cc-text"><h6>Nuestra dirección</h6><p>Av. 9 de Octubre, Centro de La Libertad, Santa Elena</p></div>
+        </div>
+      </div>
+      <div class="cta-btn"><i class="fas fa-calendar-check" style="margin-right:.6rem"></i>Reservar Ahora</div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- SLIDE 8 — VIDEO YOUTUBE (último)          -->
+  <!-- ══════════════════════════════════════════ -->
+  <div class="slide" id="s-yt">
+    <div class="ov" style="background:#000"></div>
+    <div style="position:absolute;top:24px;left:50%;transform:translateX(-50%);z-index:10;text-align:center;pointer-events:none;">
+      <span class="badge"><i class="fab fa-youtube" style="margin-right:.4rem;color:#ff4444"></i>Conoce el Hotel</span>
+    </div>
+    <iframe
+      id="yt-iframe"
+      src=""
+      data-src="https://www.youtube.com/embed/BOhvBGquQoM?autoplay=1&loop=1&playlist=BOhvBGquQoM&controls=1&rel=0&modestbranding=1"
+      frameborder="0"
+      allow="autoplay; fullscreen; picture-in-picture"
+      allowfullscreen
+      style="position:absolute;inset:0;width:100%;height:100%;border:none;z-index:5;"
+    ></iframe>
+  </div>
+
+</div><!-- #show -->
+
+<div id="prog"></div>
+<div id="dots"></div>
+<div id="hint">← → teclas · F pantalla completa · clic = siguiente</div>
+
+<script>
+  const SLIDES   = document.querySelectorAll('.slide');
+  const dotsEl   = document.getElementById('dots');
+  const progEl   = document.getElementById('prog');
+  const DURATION  = 60000;  // 1 minuto
+  const DUR_VIDEO = 120000; // 2 minutos para video
+  let cur = 0, timer;
+
+  function slideDuration() {
+    return SLIDES[cur].id === 's-yt' ? DUR_VIDEO : DURATION;
+  }
+
+  const ytIframe = document.getElementById('yt-iframe');
+  let ytLoaded = false;
+  function ytEnter() { if (ytIframe && !ytLoaded) { ytIframe.src = ytIframe.dataset.src; ytLoaded = true; } }
+  function ytLeave() { if (ytIframe) { ytIframe.src = 'about:blank'; ytLoaded = false; } }
+
+  SLIDES.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' on' : '');
+    d.addEventListener('click', () => jump(i));
+    dotsEl.appendChild(d);
+  });
+  const dots = dotsEl.querySelectorAll('.dot');
+
+  function jump(n) {
+    const prev = cur;
+    SLIDES[cur].classList.remove('active');
+    dots[cur].classList.remove('on');
+    cur = (n + SLIDES.length) % SLIDES.length;
+    SLIDES[cur].classList.add('active');
+    dots[cur].classList.add('on');
+    if (SLIDES[cur].id === 's-yt') ytEnter();
+    else if (SLIDES[prev].id === 's-yt') ytLeave();
+    resetProg();
+    clearInterval(timer);
+    timer = setInterval(advance, slideDuration());
+  }
+
+  function advance() { jump(cur + 1); }
+
+  function resetProg() {
+    const dur = slideDuration();
+    progEl.style.transition = 'none';
+    progEl.style.width = '0%';
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      progEl.style.transition = 'width ' + dur + 'ms linear';
+      progEl.style.width = '100%';
+    }));
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); jump(cur + 1); }
+    if (e.key === 'ArrowLeft') jump(cur - 1);
+    if (e.key === 'f' || e.key === 'F') {
+      if (!document.fullscreenElement) document.documentElement.requestFullscreen?.();
+      else document.exitFullscreen?.();
+    }
+    if (e.key === 'Escape') clearInterval(timer);
+  });
+
+  document.addEventListener('click', e => {
+    if (!e.target.closest('#dots') && !e.target.closest('#yt-iframe')) jump(cur + 1);
+  });
+
+  resetProg();
+  timer = setInterval(advance, slideDuration());
+</script>
+</body>
+</html>

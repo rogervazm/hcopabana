@@ -1,0 +1,422 @@
+extends layout
+
+block content
+
+  //- ══════════════════════════════════════════════════════
+  //- HERO
+  //- ══════════════════════════════════════════════════════
+  section#inicio.hero-section
+    .hero-overlay
+    .container.hero-content
+      .row.justify-content-center.text-center
+        .col-lg-9
+          p.hero-eyebrow
+            i.fas.fa-star.me-2
+            | Fundado en 2005 · La Libertad, Ecuador
+          h1.hero-title
+            | Bienvenido al&nbsp;
+            br
+            span.hero-brand Hotel Copacabana
+          p.hero-subtitle Más de 20 años ofreciendo hospitalidad, confort y tranquilidad en La Libertad.
+          .hero-actions
+            a.btn.btn-hero-primary(href='#contacto')
+              i.fas.fa-calendar-check.me-2
+              | Reservar Ahora
+            a.btn.btn-hero-secondary(href='#habitaciones')
+              i.fas.fa-bed.me-2
+              | Ver Habitaciones
+    .hero-scroll-hint
+      a(href='#nosotros')
+        i.fas.fa-chevron-down
+
+  //- ══════════════════════════════════════════════════════
+  //- STATS
+  //- ══════════════════════════════════════════════════════
+  section.stats-section
+    .container
+      .row.g-4.justify-content-center
+        .col-6.col-md-3(data-aos='fade-up' data-aos-delay='0')
+          .stat-card
+            .stat-icon: i.fas.fa-award
+            .stat-num
+              span.counter(data-target='20') 0
+              | +
+            .stat-label Años de experiencia
+        .col-6.col-md-3(data-aos='fade-up' data-aos-delay='100')
+          .stat-card
+            .stat-icon: i.fas.fa-bed
+            .stat-num
+              span.counter(data-target='35') 0
+            .stat-label Habitaciones
+        .col-6.col-md-3(data-aos='fade-up' data-aos-delay='200')
+          .stat-card
+            .stat-icon: i.fas.fa-users
+            .stat-num
+              span.counter(data-target='8000') 0
+              | +
+            .stat-label Clientes al año
+        .col-6.col-md-3(data-aos='fade-up' data-aos-delay='300')
+          .stat-card
+            .stat-icon: i.fas.fa-concierge-bell
+            .stat-num
+              span.counter(data-target='24') 0
+              | h
+            .stat-label Recepción
+
+  .wave-divider.bg-morado
+    svg(viewBox='0 0 1440 50' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg')
+      path(d='M0,25 C240,50 480,0 720,28 C960,50 1200,5 1440,25 L1440,50 L0,50Z' fill='#ffffff')
+
+  //- ══════════════════════════════════════════════════════
+  //- NOSOTROS
+  //- ══════════════════════════════════════════════════════
+  section#nosotros.section-pad
+    .container
+
+      .section-header.text-center(data-aos='fade-up')
+        span.section-badge Conócenos
+        h2.section-title Sobre Nosotros
+        p.section-subtitle El Hotel Copacabana: tradición familiar y hospitalidad costera desde 2005
+
+      //- Historia
+      .row.align-items-center.gy-5.mt-2
+        .col-lg-6(data-aos='fade-right')
+          .about-img-wrap
+            img.about-img(src='/images/about-hotel.jpeg' alt='Fachada del Hotel Copacabana' onerror="this.style.opacity='0'")
+            .about-float-badge
+              i.fas.fa-hotel.me-2
+              | Fundado en 2005
+        .col-lg-6(data-aos='fade-left')
+          span.section-badge Historia
+          h3.about-heading Nuestra Historia
+          p.about-text El Hotel Copacabana fue fundado en el año 2005 por #[strong Rogerio Lopes Vaz] y su esposa #[strong María Alexandra Molina], ubicándose en la Av. 9 de Octubre, en el centro de La Libertad.
+          p.about-text El proyecto comenzó con el arriendo de un local para la farmacia SanaSana. Posteriormente se acondicionó un espacio de Coworking en la segunda planta.
+          p.about-text Con el crecimiento del proyecto se construyeron tres plantas de hospedaje, ofreciendo actualmente #[strong 35 habitaciones] entre ejecutivas, matrimoniales y familiares. Durante más de 20 años ha brindado atención a miles de turistas nacionales e internacionales.
+
+      //- Misión y Visión
+      .row.g-4.mt-4
+        .col-md-6(data-aos='fade-up' data-aos-delay='0')
+          .mv-card
+            .mv-icon-wrap
+              i.fas.fa-bullseye
+            h4.mv-title Misión
+            p.mv-text Brindar una experiencia de hospitalidad excepcional, ofreciendo comodidad, tranquilidad y un servicio de calidad. Nos esforzamos por crear un ambiente acogedor mediante atención personalizada y altos estándares de servicio.
+        .col-md-6(data-aos='fade-up' data-aos-delay='100')
+          .mv-card
+            .mv-icon-wrap
+              i.fas.fa-eye
+            h4.mv-title Visión
+            p.mv-text Ser el hotel referente de La Libertad por nuestra excelencia en hospitalidad, confort y servicio. Expandirnos en Santa Elena y consolidarnos como marca hotelera reconocida a nivel provincial.
+
+      //- Valores
+      .mt-5
+        .section-header.text-center(data-aos='fade-up')
+          span.section-badge Lo que nos guía
+          h3.section-title Nuestros Valores
+        .row.g-4.mt-2
+          each valor in valores
+            .col-6.col-md-4.col-lg-3(data-aos='fade-up' data-aos-delay=valor.delay)
+              .valor-card
+                .valor-icon
+                  i(class=valor.icon)
+                h5.valor-name= valor.name
+
+  .wave-divider.bg-white
+    svg(viewBox='0 0 1440 50' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg')
+      path(d='M0,25 C360,0 720,50 1080,22 C1260,10 1380,35 1440,25 L1440,50 L0,50Z' fill='#F8F4EF')
+
+  //- ══════════════════════════════════════════════════════
+  //- HABITACIONES
+  //- ══════════════════════════════════════════════════════
+  section#habitaciones.section-pad.bg-warm
+    .container
+      .section-header.text-center(data-aos='fade-up')
+        span.section-badge Alojamiento
+        h2.section-title Nuestras Habitaciones
+        p.section-subtitle Elige el espacio perfecto. 35 habitaciones diseñadas para tu comodidad en la costa ecuatoriana.
+      .row.g-4.mt-2
+        each hab in habitaciones
+          .col-lg-4.col-md-6(data-aos='fade-up' data-aos-delay=hab.delay)
+            .room-card(class=hab.cardClass)
+              .room-img-wrap
+                img.room-img(src=hab.img alt=hab.name onerror="this.style.display='none'")
+                span.room-badge= hab.badge
+              .room-body
+                .d-flex.justify-content-between.align-items-start.mb-2
+                  h4.room-name= hab.name
+                  .room-price
+                    | Desde
+                    br
+                    strong.price-val $#{hab.price}
+                    span.price-unit= hab.priceUnit
+                    if hab.priceNote
+                      .price-note= hab.priceNote
+                p.room-cap
+                  i.fas.fa-users.me-2
+                  = hab.capacity
+                p.room-desc= hab.description
+                ul.room-amenities
+                  each a in hab.amenities
+                    li
+                      i.fas.fa-check-circle
+                      = ' ' + a
+                .room-actions
+                  a.btn.btn-reservar-room(href='#contacto')
+                    i.fas.fa-calendar-check.me-1
+                    | Reservar
+                  a.btn.btn-wa-room(href=`https://wa.me/593982742999?text=${encodeURIComponent(hab.waMsg)}` target='_blank' rel='noopener')
+                    i.fab.fa-whatsapp.me-1
+                    | WhatsApp
+
+  .wave-divider.bg-warm
+    svg(viewBox='0 0 1440 50' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg')
+      path(d='M0,28 C180,50 420,0 720,25 C1020,50 1260,5 1440,28 L1440,50 L0,50Z' fill='#ffffff')
+
+  //- ══════════════════════════════════════════════════════
+  //- SERVICIOS
+  //- ══════════════════════════════════════════════════════
+  section#servicios.section-pad
+    .container
+      .section-header.text-center(data-aos='fade-up')
+        span.section-badge Lo que ofrecemos
+        h2.section-title Servicios del Hotel
+        p.section-subtitle Todo lo que necesitas para una estadía perfecta en La Libertad
+      .row.g-4.mt-2
+        each sv in servicios
+          .col-6.col-md-4.col-lg-3(data-aos='fade-up' data-aos-delay=sv.delay)
+            .sv-card
+              .sv-icon
+                i(class=sv.icon)
+              h6.sv-name= sv.name
+              p.sv-desc= sv.desc
+
+  //- ══════════════════════════════════════════════════════
+  //- GALERÍA
+  //- ══════════════════════════════════════════════════════
+  section#galeria.section-pad.bg-warm
+    .container
+      .section-header.text-center(data-aos='fade-up')
+        span.section-badge Imágenes
+        h2.section-title Galería del Hotel
+        p.section-subtitle Descubre los espacios del Hotel Copacabana
+    .gallery-grid(data-aos='fade-up' data-aos-delay='100')
+      each foto, gi in galeria
+        a.gallery-item(href=foto.src class=foto.tall?'gallery-item tall':'gallery-item' data-gallery='copa-gallery' data-glightbox=`title: ${foto.title}`)
+          .gallery-placeholder(class=`gp-${gi}`)
+          img.gallery-img(src=foto.src alt=foto.title loading='lazy' onerror="this.style.display='none'")
+          .gallery-hover
+            i.fas.fa-search-plus
+            span= foto.title
+
+  //- ══════════════════════════════════════════════════════
+  //- TURISMO
+  //- ══════════════════════════════════════════════════════
+  section#turismo.section-pad
+    .container
+      .section-header.text-center(data-aos='fade-up')
+        span.section-badge Turismo
+        h2.section-title Explora los alrededores
+        p.section-subtitle La Libertad es el punto de partida perfecto para descubrir la costa ecuatoriana
+      .row.g-4.mt-2.justify-content-center
+        each lugar in lugaresDestacados
+          .col-lg-4.col-md-6(data-aos='fade-up' data-aos-delay=lugar.delay)
+            .turismo-card
+              .turismo-img-wrap
+                img.turismo-img(src=lugar.img alt=lugar.name loading='lazy' onerror="this.style.display='none'")
+                .turismo-icon-fallback
+                  i(class=lugar.icon)
+              .turismo-body
+                .turismo-dist
+                  i.fas.fa-location-dot.me-1
+                  = lugar.distancia
+                h5.turismo-name= lugar.name
+                p.turismo-desc= lugar.desc
+
+  //- ══════════════════════════════════════════════════════
+  //- PLATOS TÍPICOS
+  //- ══════════════════════════════════════════════════════
+  section#platos.section-pad.bg-warm
+    .container
+      .section-header.text-center(data-aos='fade-up')
+        span.section-badge Gastronomía local
+        h2.section-title Platos Típicos de la Costa
+        p.section-subtitle La cocina costera ecuatoriana, una experiencia que no puedes perderte
+      .row.g-4.mt-2.justify-content-center
+        each plato in platosT
+          .col-lg-3.col-md-6(data-aos='fade-up' data-aos-delay=plato.delay)
+            .plato-card
+              .plato-img-wrap
+                img.plato-img(src=plato.img alt=plato.name loading='lazy' onerror="this.style.display='none'")
+              .plato-body
+                h5.plato-name= plato.name
+                p.plato-desc= plato.desc
+
+  //- ══════════════════════════════════════════════════════
+  //- RESEÑAS
+  //- ══════════════════════════════════════════════════════
+  section#resenas.section-pad
+    .container
+      .section-header.text-center(data-aos='fade-up')
+        span.section-badge Opiniones
+        h2.section-title Lo que dicen nuestros huéspedes
+        p.section-subtitle La satisfacción de nuestros clientes es nuestra mayor recompensa
+      .row.g-4.mt-2
+        each r in resenas
+          .col-lg-4.col-md-6(data-aos='fade-up' data-aos-delay=r.delay)
+            .resena-card
+              .resena-stars
+                i.fas.fa-star
+                i.fas.fa-star
+                i.fas.fa-star
+                i.fas.fa-star
+                i.fas.fa-star
+              p.resena-text "#{r.text}"
+              .resena-footer
+                .resena-avatar= r.initials
+                .resena-info
+                  strong.resena-name= r.name
+                  span.resena-date= r.date
+
+  //- ══════════════════════════════════════════════════════
+  //- UBICACIÓN
+  //- ══════════════════════════════════════════════════════
+  section#ubicacion.section-pad.bg-warm
+    .container
+      .section-header.text-center(data-aos='fade-up')
+        span.section-badge Encuéntranos
+        h2.section-title Nuestra Ubicación
+        p.section-subtitle Av. 9 de Octubre, Centro de La Libertad, Santa Elena, Ecuador
+      .row.g-5.mt-2.align-items-start
+        .col-lg-6(data-aos='fade-right')
+          .map-wrap
+            iframe(
+              title='Ubicación Hotel Copacabana'
+              src='https://maps.google.com/maps?q=Q3HR%2BF4C+La+Libertad+Ecuador&z=17&output=embed'
+              width='100%' height='380' style='border:0;' allowfullscreen='' loading='lazy' referrerpolicy='no-referrer-when-downgrade'
+            )
+          .map-address
+            i.fas.fa-map-marker-alt.me-2
+            span Av. 9 de Octubre, Centro de La Libertad, Santa Elena, Ecuador
+            a.map-ext-link(href='https://maps.google.com/?q=Hotel+Copacabana+La+Libertad+Ecuador' target='_blank' rel='noopener')
+              | Ver en Google Maps&nbsp;
+              i.fas.fa-external-link-alt
+        .col-lg-6(data-aos='fade-left')
+          h4.nearby-heading
+            i.fas.fa-map-pin.me-2
+            | Puntos turísticos cercanos
+          .nearby-list
+            each lugar in lugaresT
+              .nearby-item
+                .nearby-icon-wrap
+                  i(class=lugar.icon)
+                .nearby-info
+                  strong.nearby-name= lugar.name
+                  span.nearby-dist= lugar.distancia
+
+  //- ══════════════════════════════════════════════════════
+  //- FAQ
+  //- ══════════════════════════════════════════════════════
+  section#faq.section-pad
+    .container
+      .section-header.text-center(data-aos='fade-up')
+        span.section-badge Preguntas frecuentes
+        h2.section-title FAQ
+        p.section-subtitle Todo lo que necesitas saber antes de tu llegada
+      .row.justify-content-center.mt-4
+        .col-lg-8
+          .accordion#faqAccordion
+            each faq, fi in faqs
+              .accordion-item.faq-item(data-aos='fade-up' data-aos-delay=fi * 50)
+                h2.accordion-header(id=`faqHead${fi}`)
+                  button(
+                    type='button'
+                    class=fi === 0 ? 'accordion-button faq-btn' : 'accordion-button faq-btn collapsed'
+                    data-bs-toggle='collapse'
+                    data-bs-target=`#faqBody${fi}`
+                    aria-expanded=fi === 0 ? 'true' : 'false'
+                    aria-controls=`faqBody${fi}`
+                  )
+                    i.fas.fa-circle-question.me-2
+                    = faq.pregunta
+                div(
+                  id=`faqBody${fi}`
+                  class=fi === 0 ? 'accordion-collapse collapse show' : 'accordion-collapse collapse'
+                  data-bs-parent='#faqAccordion'
+                )
+                  .accordion-body.faq-body= faq.respuesta
+
+  //- ══════════════════════════════════════════════════════
+  //- CONTACTO
+  //- ══════════════════════════════════════════════════════
+  section#contacto.section-pad.bg-contact
+    .container
+      .section-header.text-center(data-aos='fade-up')
+        span.section-badge.light Contáctanos
+        h2.section-title.text-white Haz tu Reserva
+        p.section-subtitle.text-white-60 Escríbenos por WhatsApp, correo o completa el formulario
+      .row.g-5.mt-2.align-items-start
+        .col-lg-5(data-aos='fade-right')
+          .contact-cards
+            a.contact-card(href='https://wa.me/593982742999' target='_blank' rel='noopener')
+              .cc-icon.wa: i.fab.fa-whatsapp
+              .cc-body
+                h6 WhatsApp
+                p +593 98 274 2999
+                small Respuesta inmediata
+            a.contact-card(href='tel:+593982742999')
+              .cc-icon.phone: i.fas.fa-phone
+              .cc-body
+                h6 Teléfono
+                p +593 98 274 2999
+                small Recepción 24 horas
+            a.contact-card(href='mailto:hotelcopacabana.ec@gmail.com')
+              .cc-icon.email: i.fas.fa-envelope
+              .cc-body
+                h6 Correo
+                p hotelcopacabana.ec@gmail.com
+                small Respuesta en 24 horas
+            .contact-card
+              .cc-icon.loc: i.fas.fa-map-marker-alt
+              .cc-body
+                h6 Dirección
+                p Av. 9 de Octubre, Centro de La Libertad, Santa Elena
+
+        .col-lg-7(data-aos='fade-left')
+          .form-wrap
+            //- NOTA PARA EL DESARROLLADOR:
+            //- Formspree: cambia action="https://formspree.io/f/TU_ID" method="POST" y
+            //-            elimina el e.preventDefault() en main.js
+            //- EmailJS:   ver main.js, sección FORMULARIO DE CONTACTO
+            form#contactForm.contact-form(novalidate)
+              .row.g-3
+                .col-md-6
+                  label.form-label Nombre completo *
+                  input.form-control(type='text' name='nombre' placeholder='Tu nombre' required)
+                .col-md-6
+                  label.form-label Correo electrónico *
+                  input.form-control(type='email' name='email' placeholder='tu@correo.com' required)
+                .col-md-6
+                  label.form-label Teléfono
+                  input.form-control(type='tel' name='telefono' placeholder='+593...')
+                .col-md-6
+                  label.form-label Tipo de habitación
+                  select.form-select(name='habitacion')
+                    option(value='') Selecciona...
+                    option Habitación Ejecutiva
+                    option Habitación Matrimonial
+                    option Habitación Familiar
+                    option Coworking
+                .col-6
+                  label.form-label Fecha Check-in
+                  input.form-control(type='date' name='checkin')
+                .col-6
+                  label.form-label Fecha Check-out
+                  input.form-control(type='date' name='checkout')
+                .col-12
+                  label.form-label Mensaje
+                  textarea.form-control(name='mensaje' rows='4' placeholder='Cuéntanos sobre tu estadía, número de personas o cualquier consulta...')
+                .col-12
+                  button.btn.btn-form-submit(type='submit')
+                    i.fas.fa-paper-plane.me-2
+                    | Enviar Consulta
+                  #formMsg.form-feedback(style='display:none')

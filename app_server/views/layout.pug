@@ -1,0 +1,170 @@
+doctype html
+html(lang='es')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    title= title
+    meta(name='description' content='Hotel Copacabana – Más de 20 años ofreciendo hospitalidad, confort y tranquilidad en La Libertad, Santa Elena, Ecuador. Reserva tu habitación ejecutiva, matrimonial o familiar.')
+    meta(name='keywords'    content='hotel La Libertad, hotel Santa Elena Ecuador, hotel boutique tropical, habitación ejecutiva, hotel matrimonial, hotel familiar')
+    meta(name='robots'      content='index, follow')
+
+    //- Open Graph
+    meta(property='og:type'        content='website')
+    meta(property='og:url'         content='https://hotelcopacabana.ec')
+    meta(property='og:title'       content='Hotel Copacabana | La Libertad, Ecuador')
+    meta(property='og:description' content='Más de 20 años ofreciendo hospitalidad, confort y tranquilidad en La Libertad, Santa Elena, Ecuador.')
+    meta(property='og:image'       content='/images/og-image.jpg')
+
+    //- Twitter Card
+    meta(name='twitter:card'        content='summary_large_image')
+    meta(name='twitter:title'       content='Hotel Copacabana | La Libertad, Ecuador')
+    meta(name='twitter:description' content='Más de 20 años ofreciendo hospitalidad, confort y tranquilidad en La Libertad, Santa Elena.')
+    meta(name='twitter:image'       content='/images/og-image.jpg')
+
+    //- Schema.org Hotel
+    script(type='application/ld+json').
+      {
+        "@context": "https://schema.org",
+        "@type": "Hotel",
+        "name": "Hotel Copacabana",
+        "description": "Más de 20 años ofreciendo hospitalidad, confort y tranquilidad en La Libertad, Santa Elena, Ecuador.",
+        "url": "https://hotelcopacabana.ec",
+        "telephone": "+593982742999",
+        "email": "hotelcopacabana.ec@gmail.com",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Av. 9 de Octubre, Centro",
+          "addressLocality": "La Libertad",
+          "addressRegion": "Santa Elena",
+          "addressCountry": "EC"
+        },
+        "numberOfRooms": "35",
+        "foundingDate": "2005",
+        "amenityFeature": [
+          { "@type": "LocationFeatureSpecification", "name": "WiFi gratuito",      "value": true },
+          { "@type": "LocationFeatureSpecification", "name": "Aire acondicionado", "value": true },
+          { "@type": "LocationFeatureSpecification", "name": "Parqueadero",        "value": true },
+          { "@type": "LocationFeatureSpecification", "name": "Recepción 24 horas", "value": true },
+          { "@type": "LocationFeatureSpecification", "name": "Smart TV",           "value": true }
+        ]
+      }
+
+    //- Google Fonts – Montserrat + Pacifico
+    link(rel='preconnect' href='https://fonts.googleapis.com')
+    link(rel='preconnect' href='https://fonts.gstatic.com' crossorigin)
+    link(rel='icon' type='image/png' href='/logo1.png')
+    link(rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;500;600;700;800&family=Pacifico&family=Yellowtail&display=swap')
+
+    //- Bootstrap 5
+    link(rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css')
+
+    //- Font Awesome 6
+    link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css')
+
+    //- AOS – Animate On Scroll
+    link(rel='stylesheet' href='https://unpkg.com/aos@2.3.1/dist/aos.css')
+
+    //- GLightbox
+    link(rel='stylesheet' href='https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css')
+
+    //- Custom CSS
+    link(rel='stylesheet' href='/stylesheets/style.css')
+
+  body
+
+    //- ─── NAVBAR ─────────────────────────────────────────────
+    nav#mainNav.navbar.navbar-expand-lg.fixed-top
+      .container
+        a.navbar-brand(href='#inicio')
+          img.nav-logo(src='/logo2.png' alt='Hotel Copacabana')
+        button.navbar-toggler(type='button' data-bs-toggle='collapse' data-bs-target='#navbarMain' aria-label='Menú')
+          span.navbar-toggler-icon
+        #navbarMain.collapse.navbar-collapse
+          ul.navbar-nav.ms-auto.align-items-lg-center
+            li.nav-item: a.nav-link(href='#nosotros')   Nosotros
+            li.nav-item: a.nav-link(href='#habitaciones') Habitaciones
+            li.nav-item: a.nav-link(href='#servicios')  Servicios
+            li.nav-item: a.nav-link(href='#galeria')    Galería
+            li.nav-item: a.nav-link(href='#resenas')    Reseñas
+            li.nav-item: a.nav-link(href='#contacto')   Contacto
+            li.nav-item.ms-lg-2
+              a.btn.btn-nav-reservar(href='#contacto')
+                i.fas.fa-calendar-check.me-2
+                | Reservar Ahora
+
+    //- ─── CONTENIDO ──────────────────────────────────────────
+    block content
+
+    //- ─── WHATSAPP FAB ───────────────────────────────────────
+    a.whatsapp-fab(href='https://wa.me/593982742999' target='_blank' rel='noopener noreferrer' aria-label='Chatea por WhatsApp')
+      i.fab.fa-whatsapp
+      span.fab-label Escríbenos
+
+    //- ─── FOOTER ─────────────────────────────────────────────
+    footer#footer
+      .footer-top
+        .container
+          .row.g-5
+            .col-lg-4.col-md-6
+              img.footer-logo(src='/logo2.png' alt='Hotel Copacabana')
+              p.footer-desc Más de 20 años de hospitalidad, confort y tranquilidad en la costa de Ecuador. Parte de la historia de La Libertad desde 2005.
+              .footer-social
+                a(href='https://www.facebook.com/hotelcopacabana.ec' target='_blank' aria-label='Facebook')
+                  i.fab.fa-facebook-f
+                a(href='https://www.instagram.com/hotelcopacabana.ec' target='_blank' aria-label='Instagram')
+                  i.fab.fa-instagram
+                a(href='#' target='_blank' aria-label='TikTok')
+                  i.fab.fa-tiktok
+                a(href='https://wa.me/593982742999' target='_blank' aria-label='WhatsApp')
+                  i.fab.fa-whatsapp
+
+            .col-lg-2.col-sm-6
+              h6.footer-title Navegación
+              ul.footer-links
+                li: a(href='#inicio')       Inicio
+                li: a(href='#nosotros')     Nosotros
+                li: a(href='#habitaciones') Habitaciones
+                li: a(href='#servicios')    Servicios
+                li: a(href='#galeria')      Galería
+                li: a(href='#resenas')      Reseñas
+                li: a(href='#contacto')     Contacto
+
+            .col-lg-2.col-sm-6
+              h6.footer-title Habitaciones
+              ul.footer-links
+                li: a(href='#habitaciones') Ejecutiva
+                li: a(href='#habitaciones') Matrimonial
+                li: a(href='#habitaciones') Familiar
+                li: a(href='#servicios')    Coworking
+
+            .col-lg-4.col-md-6
+              h6.footer-title Contáctanos
+              ul.footer-contact-list
+                li
+                  i.fas.fa-map-marker-alt
+                  span Av. 9 de Octubre, Centro de La Libertad, Santa Elena, Ecuador
+                li
+                  i.fas.fa-phone
+                  a(href='tel:+593982742999') +593 98 274 2999
+                li
+                  i.fas.fa-envelope
+                  a(href='mailto:hotelcopacabana.ec@gmail.com') hotelcopacabana.ec@gmail.com
+                li
+                  i.fab.fa-whatsapp
+                  a(href='https://wa.me/593982742999' target='_blank') WhatsApp directo
+
+      .footer-bottom
+        .container
+          .row.align-items-center
+            .col-md-6
+              p.mb-0 © 2025 Hotel Copacabana. Todos los derechos reservados.
+            .col-md-6.text-md-end
+              a.footer-back-top(href='#inicio')
+                | Volver arriba &nbsp;
+                i.fas.fa-arrow-up
+
+    //- Scripts
+    script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js')
+    script(src='https://unpkg.com/aos@2.3.1/dist/aos.js')
+    script(src='https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js')
+    script(src='/javascripts/main.js')
