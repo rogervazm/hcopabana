@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zona Snacks — Hotel Copacabana</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Pacifico&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --morado:      #4E387E;
+      --morado-dark: #3a2762;
+      --naranja:     #F28E2E;
+      --amarillo:    #EAC832;
+      --bg:          #F8F4EF;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--bg);
+      color: #333;
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      background: linear-gradient(135deg, var(--morado-dark) 0%, var(--morado) 55%, #2e1f5e 100%);
+      padding: 44px 24px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 50%, rgba(242,142,46,0.18) 0%, transparent 55%),
+        radial-gradient(circle at 80% 30%, rgba(234,200,50,0.12) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .header-inner { position: relative; }
+    .hotel-brand {
+      font-family: 'Pacifico', cursive;
+      font-size: 1.05rem;
+      color: rgba(255,255,255,0.65);
+      margin-bottom: 8px;
+    }
+    .zona-title {
+      font-family: 'Pacifico', cursive;
+      font-size: clamp(3rem, 9vw, 5rem);
+      color: var(--amarillo);
+      line-height: 1;
+      text-shadow: 0 4px 24px rgba(0,0,0,0.35);
+    }
+    .zona-sub {
+      margin-top: 10px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+    }
+    .wave {
+      display: block;
+      width: 100%;
+      height: 36px;
+      background: var(--bg);
+      clip-path: ellipse(55% 100% at 50% 100%);
+      margin-top: -1px;
+    }
+
+    /* ── GRID ── */
+    .menu-grid {
+      max-width: 1060px;
+      margin: 0 auto;
+      padding: 8px 20px 48px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 22px;
+    }
+
+    /* ── CATEGORY CARD ── */
+    .cat-card {
+      background: #fff;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 6px 28px rgba(78,56,126,0.10);
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .cat-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 14px 40px rgba(78,56,126,0.18);
+    }
+
+    .cat-header {
+      padding: 18px 22px;
+      display: flex;
+      align-items: center;
+      gap: 13px;
+    }
+    .cat-icon {
+      font-size: 1.7rem;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+    .cat-name {
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #fff;
+    }
+
+    /* Per-category colours */
+    .c-basicos   .cat-header { background: linear-gradient(135deg,#0ea5e9,#0369a1); }
+    .c-gaseosas  .cat-header { background: linear-gradient(135deg,#ef4444,#b91c1c); }
+    .c-isotonica .cat-header { background: linear-gradient(135deg,var(--naranja),#c45f0a); }
+    .c-te        .cat-header { background: linear-gradient(135deg,#22c55e,#15803d); }
+    .c-cervezas  .cat-header { background: linear-gradient(135deg,#d97706,#92400e); }
+
+    /* Item rows */
+    .cat-body { padding: 4px 0; }
+    .item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 11px 22px;
+      border-bottom: 1px solid #f3eff9;
+      transition: background 0.18s;
+    }
+    .item:last-child { border-bottom: none; }
+    .item:hover { background: #faf8ff; }
+    .item-name {
+      font-size: 0.91rem;
+      font-weight: 600;
+      color: #2d2d2d;
+    }
+    .item-price {
+      font-size: 0.97rem;
+      font-weight: 800;
+      color: var(--morado);
+      margin-left: 12px;
+      white-space: nowrap;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--morado);
+      color: rgba(255,255,255,0.65);
+      text-align: center;
+      padding: 20px 24px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+    footer strong { color: var(--amarillo); }
+
+    @media print {
+      .cat-card { break-inside: avoid; }
+      .menu-grid { padding-top: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── HEADER ─── -->
+<header class="header">
+  <div class="header-inner">
+    <p class="hotel-brand">Hotel Copacabana · La Libertad</p>
+    <h1 class="zona-title">Zona Snacks</h1>
+    <p class="zona-sub">Bebidas disponibles para huéspedes</p>
+  </div>
+</header>
+<span class="wave"></span>
+
+<!-- ─── MENU ─── -->
+<main class="menu-grid">
+
+  <!-- BÁSICOS -->
+  <div class="cat-card c-basicos">
+    <div class="cat-header">
+      <span class="cat-icon">💧</span>
+      <span class="cat-name">Básicos</span>
+    </div>
+    <div class="cat-body">
+      <div class="item"><span class="item-name">Agua</span><span class="item-price">$1.00</span></div>
+      <div class="item"><span class="item-name">Leche Chocolatada</span><span class="item-price">$0.80</span></div>
+    </div>
+  </div>
+
+  <!-- GASEOSAS -->
+  <div class="cat-card c-gaseosas">
+    <div class="cat-header">
+      <span class="cat-icon">🥤</span>
+      <span class="cat-name">Gaseosas</span>
+    </div>
+    <div class="cat-body">
+      <div class="item"><span class="item-name">Coca Cola 300ml</span><span class="item-price">$0.80</span></div>
+      <div class="item"><span class="item-name">Coca Cola 500ml</span><span class="item-price">$1.50</span></div>
+      <div class="item"><span class="item-name">Fanta 300ml</span><span class="item-price">$0.80</span></div>
+      <div class="item"><span class="item-name">Fanta 400ml</span><span class="item-price">$0.90</span></div>
+      <div class="item"><span class="item-name">Sprite 300ml</span><span class="item-price">$0.80</span></div>
+      <div class="item"><span class="item-name">Fiora 300ml</span><span class="item-price">$0.80</span></div>
+      <div class="item"><span class="item-name">Inka Cola 400ml</span><span class="item-price">$0.90</span></div>
+    </div>
+  </div>
+
+  <!-- ISOTÓNICAS & ENERGIZANTES -->
+  <div class="cat-card c-isotonica">
+    <div class="cat-header">
+      <span class="cat-icon">⚡</span>
+      <span class="cat-name">Isotónicas &amp; Energizantes</span>
+    </div>
+    <div class="cat-body">
+      <div class="item"><span class="item-name">Gatorade Mandarina</span><span class="item-price">$1.50</span></div>
+      <div class="item"><span class="item-name">Gatorade Apple</span><span class="item-price">$1.50</span></div>
+      <div class="item"><span class="item-name">Gatorade Fruit Punch</span><span class="item-price">$1.50</span></div>
+      <div class="item"><span class="item-name">Gatorade Uva</span><span class="item-price">$1.50</span></div>
+      <div class="item"><span class="item-name">V220</span><span class="item-price">$1.50</span></div>
+      <div class="item"><span class="item-name">Vive 100 Original</span><span class="item-price">$1.50</span></div>
+      <div class="item"><span class="item-name">Vive 100 Moringa</span><span class="item-price">$1.50</span></div>
+      <div class="item"><span class="item-name">Vive 100 Borojó</span><span class="item-price">$1.50</span></div>
+    </div>
+  </div>
+
+  <!-- TÉ & NATURALES -->
+  <div class="cat-card c-te">
+    <div class="cat-header">
+      <span class="cat-icon">🍃</span>
+      <span class="cat-name">Té &amp; Naturales</span>
+    </div>
+    <div class="cat-body">
+      <div class="item"><span class="item-name">Fuze Tea</span><span class="item-price">$1.50</span></div>
+      <div class="item"><span class="item-name">Saviloe</span><span class="item-price">$1.50</span></div>
+    </div>
+  </div>
+
+  <!-- CERVEZAS -->
+  <div class="cat-card c-cervezas">
+    <div class="cat-header">
+      <span class="cat-icon">🍺</span>
+      <span class="cat-name">Cervezas</span>
+    </div>
+    <div class="cat-body">
+      <div class="item"><span class="item-name">Cerveza Club Verde</span><span class="item-price">$2.50</span></div>
+      <div class="item"><span class="item-name">Cerveza Light</span><span class="item-price">$2.50</span></div>
+      <div class="item"><span class="item-name">Cerveza Corona</span><span class="item-price">$3.00</span></div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <strong>Hotel Copacabana</strong> &nbsp;·&nbsp; Av. 9 de Octubre, La Libertad, Santa Elena &nbsp;·&nbsp; +593 99 414 2593
+</footer>
+
+</body>
+</html>

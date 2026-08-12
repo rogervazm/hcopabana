@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR — Hotel Copacabana</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Pacifico&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    :root {
+      --morado:      #4E387E;
+      --morado-dark: #3a2762;
+      --naranja:     #F28E2E;
+      --amarillo:    #EAC832;
+      --bg:          #F8F4EF;
+      --verde:       #16a34a;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--bg);
+      color: #333;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      background: linear-gradient(135deg, var(--morado-dark) 0%, var(--morado) 55%, #2e1f5e 100%);
+      padding: 32px 24px 28px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 60%, rgba(242,142,46,0.18) 0%, transparent 55%),
+        radial-gradient(circle at 80% 30%, rgba(234,200,50,0.12) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .header-inner { position: relative; }
+    .hotel-name {
+      font-family: 'Pacifico', cursive;
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      color: var(--amarillo);
+      line-height: 1;
+      text-shadow: 0 3px 16px rgba(0,0,0,0.3);
+    }
+    .hotel-sub {
+      margin-top: 6px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+    }
+    .wave {
+      display: block;
+      width: 100%;
+      height: 30px;
+      background: var(--bg);
+      clip-path: ellipse(55% 100% at 50% 100%);
+    }
+
+    /* ── MAIN ── */
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 24px 36px;
+    }
+    .cards-row {
+      display: flex;
+      gap: 28px;
+      flex-wrap: wrap;
+      justify-content: center;
+      max-width: 900px;
+      width: 100%;
+    }
+
+    /* ── QR CARD ── */
+    .qr-card {
+      background: #fff;
+      border-radius: 24px;
+      box-shadow: 0 8px 36px rgba(78,56,126,0.13);
+      padding: 32px 28px 28px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      flex: 1 1 280px;
+      max-width: 380px;
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .qr-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 18px 48px rgba(78,56,126,0.2);
+    }
+
+    .qr-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 5px 16px;
+      border-radius: 50px;
+      margin-bottom: 20px;
+    }
+    .qr-badge.google  { background: rgba(234,67,53,0.1);  color: #ea4335; }
+    .qr-badge.wifi    { background: rgba(78,56,126,0.1);   color: var(--morado); }
+
+    .qr-img-wrap {
+      width: 220px;
+      height: 220px;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 3px solid #f0edf9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fafafa;
+      margin-bottom: 22px;
+    }
+    .qr-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    /* Placeholder shown when image path is missing */
+    .qr-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      color: #bbb;
+    }
+    .qr-placeholder i { font-size: 3.5rem; }
+    .qr-placeholder span { font-size: 0.72rem; font-weight: 600; }
+
+    .qr-title {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--morado);
+      margin-bottom: 6px;
+    }
+    .qr-desc {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #888;
+      line-height: 1.5;
+    }
+    .qr-detail {
+      margin-top: 14px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #555;
+      background: #f5f2ff;
+      border-radius: 10px;
+      padding: 8px 16px;
+      width: 100%;
+    }
+    .qr-detail span {
+      color: var(--morado);
+      font-weight: 800;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--morado);
+      color: rgba(255,255,255,0.6);
+      text-align: center;
+      padding: 18px 24px;
+      font-size: 0.76rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+    footer strong { color: var(--amarillo); }
+
+    @media (max-width: 600px) {
+      .qr-card { max-width: 100%; }
+      .qr-img-wrap { width: 180px; height: 180px; }
+    }
+
+    @media print {
+      body { background: white; }
+      .qr-card { box-shadow: none; border: 2px solid #eee; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── HEADER ─── -->
+<header class="header">
+  <div class="header-inner">
+    <h1 class="hotel-name">Hotel Copacabana</h1>
+    <p class="hotel-sub">La Libertad · Santa Elena · Ecuador</p>
+  </div>
+</header>
+<span class="wave"></span>
+
+<!-- ─── QR CARDS ─── -->
+<main>
+  <div class="cards-row">
+
+    <!-- Google Maps -->
+    <div class="qr-card">
+      <div class="qr-badge google">
+        <i class="fab fa-google"></i>
+        Google Maps
+      </div>
+      <div class="qr-img-wrap">
+        <img src="/images/qr-googlemaps.png" alt="QR Google Maps"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+        <div class="qr-placeholder" style="display:none">
+          <i class="fas fa-qrcode"></i>
+          <span>Guardar como<br>qr-googlemaps.png</span>
+        </div>
+      </div>
+      <p class="qr-title">Deja tu Opinión</p>
+      <p class="qr-desc">Escanea el código y cuéntanos<br>tu experiencia en Google Maps</p>
+      <div class="qr-detail">
+        <i class="fas fa-star" style="color:#f59e0b"></i>&nbsp;
+        Tu reseña nos ayuda a mejorar
+      </div>
+    </div>
+
+    <!-- WiFi -->
+    <div class="qr-card">
+      <div class="qr-badge wifi">
+        <i class="fas fa-wifi"></i>
+        WiFi Gratis
+      </div>
+      <div class="qr-img-wrap">
+        <img src="/images/qr-wifi.png" alt="QR WiFi"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+        <div class="qr-placeholder" style="display:none">
+          <i class="fas fa-qrcode"></i>
+          <span>Guardar como<br>qr-wifi.png</span>
+        </div>
+      </div>
+      <p class="qr-title">Conectarse al WiFi</p>
+      <p class="qr-desc">Escanea el código para conectarte<br>a la red del hotel</p>
+      <div class="qr-detail">
+        Red: <span>Copacabana-netlife</span>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <strong>Hotel Copacabana</strong> &nbsp;·&nbsp; Av. 9 de Octubre, La Libertad, Santa Elena &nbsp;·&nbsp; +593 99 414 2593
+</footer>
+
+</body>
+</html>
