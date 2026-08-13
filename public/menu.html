@@ -5,256 +5,544 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Zona Snacks — Hotel Copacabana</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Pacifico&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800;900&family=Pacifico&display=swap" rel="stylesheet">
+
   <style>
-    :root {
-      --morado:      #4E387E;
-      --morado-dark: #3a2762;
-      --naranja:     #F28E2E;
-      --amarillo:    #EAC832;
-      --bg:          #F8F4EF;
-    }
+    /* ── PRINT CONFIG ── */
+    @page { size: A4 landscape; margin: 0; }
+
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: 'Montserrat', sans-serif;
-      background: var(--bg);
-      color: #333;
-      min-height: 100vh;
+      background: #0b0520;
     }
 
-    /* ── HEADER ── */
-    .header {
-      background: linear-gradient(135deg, var(--morado-dark) 0%, var(--morado) 55%, #2e1f5e 100%);
-      padding: 44px 24px 40px;
-      text-align: center;
+    /* ── PAGE SHELL ── */
+    .page {
       position: relative;
       overflow: hidden;
+      display: flex;
+      flex-direction: column;
     }
-    .header::before {
-      content: '';
+
+    /* background photo */
+    .bg {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+    }
+
+    /* dark gradient overlay */
+    .overlay {
       position: absolute;
       inset: 0;
       background:
-        radial-gradient(circle at 20% 50%, rgba(242,142,46,0.18) 0%, transparent 55%),
-        radial-gradient(circle at 80% 30%, rgba(234,200,50,0.12) 0%, transparent 50%);
+        linear-gradient(160deg,
+          rgba(20,8,55,0.93) 0%,
+          rgba(58,39,98,0.86) 45%,
+          rgba(15,6,40,0.94) 100%);
+    }
+
+    /* subtle grain texture */
+    .overlay::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      opacity: 0.4;
       pointer-events: none;
     }
-    .header-inner { position: relative; }
-    .hotel-brand {
-      font-family: 'Pacifico', cursive;
-      font-size: 1.05rem;
-      color: rgba(255,255,255,0.65);
-      margin-bottom: 8px;
+
+    /* content layer */
+    .content {
+      position: relative;
+      z-index: 2;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
     }
-    .zona-title {
-      font-family: 'Pacifico', cursive;
-      font-size: clamp(3rem, 9vw, 5rem);
-      color: var(--amarillo);
-      line-height: 1;
-      text-shadow: 0 4px 24px rgba(0,0,0,0.35);
+
+    /* ═══════════════════════════════════════
+       PAGE 1 — MENU
+    ═══════════════════════════════════════ */
+
+    /* TOP BAND */
+    .top-band {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      padding: 5.5% 6% 0;
     }
-    .zona-sub {
-      margin-top: 10px;
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
+
+    .brand-block {}
+    .brand-hotel {
+      font-family: 'Pacifico', cursive;
       color: rgba(255,255,255,0.55);
+      letter-spacing: 0.03em;
+      line-height: 1;
     }
-    .wave {
-      display: block;
-      width: 100%;
-      height: 36px;
-      background: var(--bg);
-      clip-path: ellipse(55% 100% at 50% 100%);
-      margin-top: -1px;
+    .brand-zona {
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      color: #EAC832;
+      line-height: 1;
+      text-shadow: 0 0 40px rgba(234,200,50,0.35);
     }
 
-    /* ── GRID ── */
-    .menu-grid {
-      max-width: 1060px;
-      margin: 0 auto;
-      padding: 8px 20px 48px;
+    .top-right {
+      text-align: right;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .top-tagline {
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+    }
+    .top-accent {
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #F28E2E;
+    }
+
+    /* GOLD DIVIDER */
+    .gold-divider {
+      margin: 0 6%;
+      height: 1px;
+      background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(234,200,50,0.25) 15%,
+        rgba(234,200,50,0.7) 45%,
+        rgba(242,142,46,0.7) 55%,
+        rgba(234,200,50,0.25) 85%,
+        transparent 100%);
+      position: relative;
+    }
+    .gold-divider::before {
+      content: '✦';
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      color: #EAC832;
+      background: transparent;
+      line-height: 1;
+    }
+
+    /* PRODUCT GRID */
+    .products {
+      flex: 1;
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
-      gap: 22px;
+      grid-template-columns: 1.15fr 1.5fr 0.95fr 0.85fr;
+      gap: 0 2.5%;
+      padding: 0 6%;
     }
 
-    /* ── CATEGORY CARD ── */
-    .cat-card {
-      background: #fff;
-      border-radius: 20px;
-      overflow: hidden;
-      box-shadow: 0 6px 28px rgba(78,56,126,0.10);
-      transition: transform 0.25s, box-shadow 0.25s;
-    }
-    .cat-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 14px 40px rgba(78,56,126,0.18);
+    .col {
+      display: flex;
+      flex-direction: column;
+      padding-top: 4%;
     }
 
-    .cat-header {
-      padding: 18px 22px;
+    /* category label */
+    .col-head {
       display: flex;
       align-items: center;
-      gap: 13px;
+      gap: 6px;
+      border-bottom: 1px solid rgba(242,142,46,0.35);
+      padding-bottom: 5px;
+      margin-bottom: 7px;
     }
-    .cat-icon {
-      font-size: 1.7rem;
+    .col-icon {
       line-height: 1;
+    }
+    .col-title {
+      font-weight: 800;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #F28E2E;
+    }
+
+    /* product row */
+    .row {
+      display: flex;
+      align-items: baseline;
+      gap: 0;
+      padding: 4px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.055);
+    }
+    .row:last-child { border-bottom: none; }
+
+    .r-name {
+      font-weight: 500;
+      color: rgba(255,255,255,0.87);
+      white-space: nowrap;
       flex-shrink: 0;
     }
-    .cat-name {
-      font-size: 0.82rem;
-      font-weight: 900;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: #fff;
+    .r-dots {
+      flex: 1;
+      overflow: hidden;
+      position: relative;
+      top: -2px;
+      margin: 0 5px;
+    }
+    .r-dots::after {
+      content: '· · · · · · · · · · · · · · · · · · · · · · · · · · ·';
+      color: rgba(255,255,255,0.18);
+      font-size: 0.7em;
+      letter-spacing: 2px;
+    }
+    .r-price {
+      font-weight: 700;
+      color: #EAC832;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
 
-    /* Per-category colours */
-    .c-basicos   .cat-header { background: linear-gradient(135deg,#0ea5e9,#0369a1); }
-    .c-gaseosas  .cat-header { background: linear-gradient(135deg,#ef4444,#b91c1c); }
-    .c-isotonica .cat-header { background: linear-gradient(135deg,var(--naranja),#c45f0a); }
-    .c-te        .cat-header { background: linear-gradient(135deg,#22c55e,#15803d); }
-    .c-cervezas  .cat-header { background: linear-gradient(135deg,#d97706,#92400e); }
+    /* sub-category spacer inside a column */
+    .col-gap { flex-shrink: 0; }
 
-    /* Item rows */
-    .cat-body { padding: 4px 0; }
-    .item {
+    /* BOTTOM BAR */
+    .bottom-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 11px 22px;
-      border-bottom: 1px solid #f3eff9;
-      transition: background 0.18s;
+      padding: 0 6% 4%;
     }
-    .item:last-child { border-bottom: none; }
-    .item:hover { background: #faf8ff; }
-    .item-name {
-      font-size: 0.91rem;
+    .bot-left {
       font-weight: 600;
-      color: #2d2d2d;
+      letter-spacing: 0.06em;
+      color: rgba(255,255,255,0.3);
     }
-    .item-price {
-      font-size: 0.97rem;
-      font-weight: 800;
-      color: var(--morado);
-      margin-left: 12px;
-      white-space: nowrap;
+    .bot-right {
+      font-family: 'Pacifico', cursive;
+      color: rgba(255,255,255,0.3);
     }
 
-    /* ── FOOTER ── */
-    footer {
-      background: var(--morado);
-      color: rgba(255,255,255,0.65);
+
+    /* ═══════════════════════════════════════
+       PAGE 2 — QR CODES
+    ═══════════════════════════════════════ */
+    .qr-page .content {
+      align-items: center;
+      justify-content: center;
+      gap: 0;
       text-align: center;
-      padding: 20px 24px;
-      font-size: 0.78rem;
-      font-weight: 600;
-      letter-spacing: 0.04em;
     }
-    footer strong { color: var(--amarillo); }
 
+    .qr-hotel {
+      font-family: 'Pacifico', cursive;
+      color: #EAC832;
+      text-shadow: 0 0 30px rgba(234,200,50,0.3);
+      line-height: 1;
+    }
+    .qr-sub {
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+    }
+
+    .qr-cards {
+      display: flex;
+      align-items: center;
+      gap: 0;
+    }
+
+    .qr-sep {
+      width: 1px;
+      background: linear-gradient(to bottom,
+        transparent,
+        rgba(255,255,255,0.25) 25%,
+        rgba(255,255,255,0.25) 75%,
+        transparent);
+    }
+
+    .qr-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .qr-badge {
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      border-radius: 50px;
+    }
+    .qr-badge.google { color: #ea4335; background: rgba(234,67,53,0.12); border: 1px solid rgba(234,67,53,0.3); }
+    .qr-badge.wifi   { color: #818cf8; background: rgba(129,140,248,0.12); border: 1px solid rgba(129,140,248,0.3); }
+
+    .qr-frame {
+      background: #fff;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.1);
+    }
+    .qr-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 10px;
+    }
+
+    .qr-label {
+      font-weight: 800;
+      color: #ffffff;
+    }
+    .qr-desc {
+      font-weight: 500;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.4;
+    }
+    .qr-network {
+      font-weight: 700;
+      color: #EAC832;
+      background: rgba(234,200,50,0.08);
+      border: 1px solid rgba(234,200,50,0.25);
+      border-radius: 50px;
+    }
+
+    /* ═══════════════════════════════════════
+       RESPONSIVE: SCREEN SIZES
+    ═══════════════════════════════════════ */
+    @media screen {
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 24px 16px;
+        gap: 20px;
+        min-height: 100vh;
+      }
+
+      .page {
+        width: min(96vw, 1060px);
+        aspect-ratio: 297 / 210;
+        border-radius: 6px;
+        box-shadow: 0 24px 80px rgba(0,0,0,0.6);
+      }
+
+      /* font sizes tuned for screen ratio */
+      .brand-hotel { font-size: clamp(0.75rem, 1.4vw, 1rem); }
+      .brand-zona  { font-size: clamp(1.5rem, 3.5vw, 2.6rem); }
+      .top-tagline { font-size: clamp(0.42rem, 0.8vw, 0.6rem); }
+      .top-accent  { font-size: clamp(0.5rem, 0.95vw, 0.7rem); }
+      .gold-divider { margin-top: clamp(6px,1.5vw,14px); margin-bottom: 0; }
+      .gold-divider::before { font-size: clamp(0.5rem, 1vw, 0.8rem); }
+      .col-icon { font-size: clamp(0.6rem, 1.1vw, 0.85rem); }
+      .col-title { font-size: clamp(0.38rem, 0.72vw, 0.56rem); }
+      .r-name  { font-size: clamp(0.42rem, 0.82vw, 0.65rem); }
+      .r-price { font-size: clamp(0.44rem, 0.85vw, 0.67rem); }
+      .col-head { margin-bottom: clamp(3px, 0.6vw, 6px); padding-bottom: clamp(3px, 0.5vw, 5px); }
+      .row { padding: clamp(2px, 0.5vw, 5px) 0; }
+      .col-gap { height: clamp(6px, 1.3vw, 12px); }
+      .bot-left  { font-size: clamp(0.38rem, 0.72vw, 0.56rem); }
+      .bot-right { font-size: clamp(0.6rem, 1.1vw, 0.85rem); }
+
+      /* QR page sizes */
+      .qr-hotel { font-size: clamp(1.4rem, 3vw, 2.4rem); }
+      .qr-sub   { font-size: clamp(0.42rem, 0.8vw, 0.62rem); margin-top: 4px; margin-bottom: clamp(12px,2.5vw,24px); }
+      .qr-cards { gap: clamp(16px, 4vw, 48px); }
+      .qr-sep   { height: clamp(100px, 18vw, 160px); }
+      .qr-card  { gap: clamp(6px, 1.2vw, 12px); padding: 0 clamp(16px, 3vw, 36px); }
+      .qr-badge { font-size: clamp(0.38rem, 0.72vw, 0.58rem); padding: clamp(3px,0.5vw,5px) clamp(8px,1.5vw,14px); margin-bottom: clamp(4px,0.8vw,8px); }
+      .qr-frame { width: clamp(80px, 15vw, 140px); height: clamp(80px, 15vw, 140px); padding: clamp(5px, 1vw, 9px); border-radius: clamp(10px,1.8vw,18px); }
+      .qr-label { font-size: clamp(0.55rem, 1.05vw, 0.85rem); margin-top: clamp(4px,0.7vw,8px); }
+      .qr-desc  { font-size: clamp(0.4rem, 0.75vw, 0.6rem); margin-top: clamp(2px,0.4vw,4px); }
+      .qr-network { font-size: clamp(0.42rem, 0.8vw, 0.65rem); padding: clamp(3px,0.5vw,6px) clamp(8px,1.5vw,14px); margin-top: clamp(4px,0.8vw,8px); }
+    }
+
+    /* ═══════════════════════════════════════
+       PRINT OVERRIDES
+    ═══════════════════════════════════════ */
     @media print {
-      .cat-card { break-inside: avoid; }
-      .menu-grid { padding-top: 16px; }
+      body { padding: 0; background: none; }
+
+      .page {
+        width: 297mm;
+        height: 210mm;
+        break-after: page;
+      }
+
+      .brand-hotel { font-size: 10pt; }
+      .brand-zona  { font-size: 24pt; }
+      .top-tagline { font-size: 5.5pt; }
+      .top-accent  { font-size: 6.5pt; }
+      .gold-divider { margin-top: 10pt; }
+      .col-icon { font-size: 7.5pt; }
+      .col-title { font-size: 5.5pt; }
+      .r-name  { font-size: 6pt; }
+      .r-price { font-size: 6.5pt; }
+      .row { padding: 3.5pt 0; }
+      .col-gap { height: 10pt; }
+      .bot-left  { font-size: 5pt; }
+      .bot-right { font-size: 8pt; }
+      .qr-hotel { font-size: 22pt; }
+      .qr-sub   { font-size: 5.5pt; margin-top: 4pt; margin-bottom: 18pt; }
+      .qr-cards { gap: 36pt; }
+      .qr-sep   { height: 130pt; }
+      .qr-card  { gap: 8pt; padding: 0 28pt; }
+      .qr-badge { font-size: 5pt; padding: 3pt 10pt; margin-bottom: 6pt; }
+      .qr-frame { width: 110pt; height: 110pt; padding: 7pt; }
+      .qr-label { font-size: 7.5pt; margin-top: 6pt; }
+      .qr-desc  { font-size: 5.5pt; margin-top: 3pt; }
+      .qr-network { font-size: 5.5pt; padding: 4pt 10pt; margin-top: 6pt; }
+      .bottom-bar { padding-bottom: 14pt; }
     }
   </style>
 </head>
 <body>
 
-<!-- ─── HEADER ─── -->
-<header class="header">
-  <div class="header-inner">
-    <p class="hotel-brand">Hotel Copacabana · La Libertad</p>
-    <h1 class="zona-title">Zona Snacks</h1>
-    <p class="zona-sub">Bebidas disponibles para huéspedes</p>
-  </div>
-</header>
-<span class="wave"></span>
+<!-- ════════════════════════════════════════════════════
+     CARA A  —  MENÚ DE BEBIDAS
+════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="bg" style="background-image:url('/images/turismo-libertad.png')"></div>
+  <div class="overlay"></div>
+  <div class="content">
 
-<!-- ─── MENU ─── -->
-<main class="menu-grid">
+    <!-- top: hotel name + zona snacks -->
+    <div class="top-band">
+      <div class="brand-block">
+        <div class="brand-hotel">Hotel Copacabana</div>
+        <div class="brand-zona">Zona Snacks</div>
+      </div>
+      <div class="top-right">
+        <span class="top-tagline">La Libertad · Santa Elena · Ecuador</span>
+        <span class="top-accent">Bebidas para Huéspedes</span>
+      </div>
+    </div>
 
-  <!-- BÁSICOS -->
-  <div class="cat-card c-basicos">
-    <div class="cat-header">
-      <span class="cat-icon">💧</span>
-      <span class="cat-name">Básicos</span>
-    </div>
-    <div class="cat-body">
-      <div class="item"><span class="item-name">Agua</span><span class="item-price">$1.00</span></div>
-      <div class="item"><span class="item-name">Leche Chocolatada</span><span class="item-price">$0.80</span></div>
-    </div>
-  </div>
+    <div class="gold-divider" style="margin-top:2%"></div>
 
-  <!-- GASEOSAS -->
-  <div class="cat-card c-gaseosas">
-    <div class="cat-header">
-      <span class="cat-icon">🥤</span>
-      <span class="cat-name">Gaseosas</span>
-    </div>
-    <div class="cat-body">
-      <div class="item"><span class="item-name">Coca Cola 300ml</span><span class="item-price">$0.80</span></div>
-      <div class="item"><span class="item-name">Coca Cola 500ml</span><span class="item-price">$1.50</span></div>
-      <div class="item"><span class="item-name">Fanta 300ml</span><span class="item-price">$0.80</span></div>
-      <div class="item"><span class="item-name">Fanta 400ml</span><span class="item-price">$0.90</span></div>
-      <div class="item"><span class="item-name">Sprite 300ml</span><span class="item-price">$0.80</span></div>
-      <div class="item"><span class="item-name">Fiora 300ml</span><span class="item-price">$0.80</span></div>
-      <div class="item"><span class="item-name">Inka Cola 400ml</span><span class="item-price">$0.90</span></div>
-    </div>
-  </div>
+    <!-- products -->
+    <div class="products">
 
-  <!-- ISOTÓNICAS & ENERGIZANTES -->
-  <div class="cat-card c-isotonica">
-    <div class="cat-header">
-      <span class="cat-icon">⚡</span>
-      <span class="cat-name">Isotónicas &amp; Energizantes</span>
-    </div>
-    <div class="cat-body">
-      <div class="item"><span class="item-name">Gatorade Mandarina</span><span class="item-price">$1.50</span></div>
-      <div class="item"><span class="item-name">Gatorade Apple</span><span class="item-price">$1.50</span></div>
-      <div class="item"><span class="item-name">Gatorade Fruit Punch</span><span class="item-price">$1.50</span></div>
-      <div class="item"><span class="item-name">Gatorade Uva</span><span class="item-price">$1.50</span></div>
-      <div class="item"><span class="item-name">V220</span><span class="item-price">$1.50</span></div>
-      <div class="item"><span class="item-name">Vive 100 Original</span><span class="item-price">$1.50</span></div>
-      <div class="item"><span class="item-name">Vive 100 Moringa</span><span class="item-price">$1.50</span></div>
-      <div class="item"><span class="item-name">Vive 100 Borojó</span><span class="item-price">$1.50</span></div>
-    </div>
-  </div>
+      <!-- COL 1: GASEOSAS -->
+      <div class="col">
+        <div class="col-head">
+          <span class="col-icon">🥤</span>
+          <span class="col-title">Gaseosas</span>
+        </div>
+        <div class="row"><span class="r-name">Coca Cola 300ml</span><span class="r-dots"></span><span class="r-price">$0.80</span></div>
+        <div class="row"><span class="r-name">Coca Cola 500ml</span><span class="r-dots"></span><span class="r-price">$1.50</span></div>
+        <div class="row"><span class="r-name">Fanta 300ml</span><span class="r-dots"></span><span class="r-price">$0.80</span></div>
+        <div class="row"><span class="r-name">Fanta 400ml</span><span class="r-dots"></span><span class="r-price">$0.90</span></div>
+        <div class="row"><span class="r-name">Sprite 300ml</span><span class="r-dots"></span><span class="r-price">$0.80</span></div>
+        <div class="row"><span class="r-name">Fiora 300ml</span><span class="r-dots"></span><span class="r-price">$0.80</span></div>
+        <div class="row"><span class="r-name">Inka Cola 400ml</span><span class="r-dots"></span><span class="r-price">$0.90</span></div>
+      </div>
 
-  <!-- TÉ & NATURALES -->
-  <div class="cat-card c-te">
-    <div class="cat-header">
-      <span class="cat-icon">🍃</span>
-      <span class="cat-name">Té &amp; Naturales</span>
-    </div>
-    <div class="cat-body">
-      <div class="item"><span class="item-name">Fuze Tea</span><span class="item-price">$1.50</span></div>
-      <div class="item"><span class="item-name">Saviloe</span><span class="item-price">$1.50</span></div>
-    </div>
-  </div>
+      <!-- COL 2: ISOTÓNICAS & ENERGIZANTES -->
+      <div class="col">
+        <div class="col-head">
+          <span class="col-icon">⚡</span>
+          <span class="col-title">Isotónicas &amp; Energizantes</span>
+        </div>
+        <div class="row"><span class="r-name">Gatorade Mandarina</span><span class="r-dots"></span><span class="r-price">$1.50</span></div>
+        <div class="row"><span class="r-name">Gatorade Apple</span><span class="r-dots"></span><span class="r-price">$1.50</span></div>
+        <div class="row"><span class="r-name">Gatorade Fruit Punch</span><span class="r-dots"></span><span class="r-price">$1.50</span></div>
+        <div class="row"><span class="r-name">Gatorade Uva</span><span class="r-dots"></span><span class="r-price">$1.50</span></div>
+        <div class="row"><span class="r-name">V220</span><span class="r-dots"></span><span class="r-price">$1.50</span></div>
+        <div class="row"><span class="r-name">Vive 100 Original</span><span class="r-dots"></span><span class="r-price">$1.50</span></div>
+        <div class="row"><span class="r-name">Vive 100 Moringa</span><span class="r-dots"></span><span class="r-price">$1.50</span></div>
+        <div class="row"><span class="r-name">Vive 100 Borojó</span><span class="r-dots"></span><span class="r-price">$1.50</span></div>
+      </div>
 
-  <!-- CERVEZAS -->
-  <div class="cat-card c-cervezas">
-    <div class="cat-header">
-      <span class="cat-icon">🍺</span>
-      <span class="cat-name">Cervezas</span>
-    </div>
-    <div class="cat-body">
-      <div class="item"><span class="item-name">Cerveza Club Verde</span><span class="item-price">$2.50</span></div>
-      <div class="item"><span class="item-name">Cerveza Light</span><span class="item-price">$2.50</span></div>
-      <div class="item"><span class="item-name">Cerveza Corona</span><span class="item-price">$3.00</span></div>
-    </div>
-  </div>
+      <!-- COL 3: TÉ + BÁSICOS -->
+      <div class="col">
+        <div class="col-head">
+          <span class="col-icon">🍃</span>
+          <span class="col-title">Té &amp; Naturales</span>
+        </div>
+        <div class="row"><span class="r-name">Fuze Tea</span><span class="r-dots"></span><span class="r-price">$1.50</span></div>
+        <div class="row"><span class="r-name">Saviloe</span><span class="r-dots"></span><span class="r-price">$1.50</span></div>
 
-</main>
+        <div class="col-gap"></div>
 
-<footer>
-  <strong>Hotel Copacabana</strong> &nbsp;·&nbsp; Av. 9 de Octubre, La Libertad, Santa Elena &nbsp;·&nbsp; +593 99 414 2593
-</footer>
+        <div class="col-head">
+          <span class="col-icon">💧</span>
+          <span class="col-title">Básicos</span>
+        </div>
+        <div class="row"><span class="r-name">Agua</span><span class="r-dots"></span><span class="r-price">$1.00</span></div>
+        <div class="row"><span class="r-name">Leche Chocolatada</span><span class="r-dots"></span><span class="r-price">$0.80</span></div>
+      </div>
+
+      <!-- COL 4: CERVEZAS -->
+      <div class="col">
+        <div class="col-head">
+          <span class="col-icon">🍺</span>
+          <span class="col-title">Cervezas</span>
+        </div>
+        <div class="row"><span class="r-name">Club Verde</span><span class="r-dots"></span><span class="r-price">$2.50</span></div>
+        <div class="row"><span class="r-name">Cerveza Light</span><span class="r-dots"></span><span class="r-price">$2.50</span></div>
+        <div class="row"><span class="r-name">Corona</span><span class="r-dots"></span><span class="r-price">$3.00</span></div>
+      </div>
+
+    </div><!-- /products -->
+
+    <div class="gold-divider" style="margin-bottom:1.5%"></div>
+
+    <div class="bottom-bar">
+      <span class="bot-left">Av. 9 de Octubre, La Libertad, Santa Elena &nbsp;·&nbsp; +593 99 414 2593</span>
+      <span class="bot-right">Hotel Copacabana</span>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /page 1 -->
+
+
+<!-- ════════════════════════════════════════════════════
+     CARA B  —  QR CODES
+════════════════════════════════════════════════════ -->
+<div class="page qr-page">
+  <div class="bg" style="background-image:url('/images/marlibertad.png')"></div>
+  <div class="overlay"></div>
+  <div class="content">
+
+    <div class="qr-hotel">Hotel Copacabana</div>
+    <div class="qr-sub">La Libertad · Santa Elena · Ecuador</div>
+
+    <div class="qr-cards">
+
+      <!-- Google Maps -->
+      <div class="qr-card">
+        <div class="qr-badge google">Google Maps · Reseñas</div>
+        <div class="qr-frame">
+          <img src="/images/qr-googlemaps.jpg" alt="QR Google Maps"
+               onerror="this.parentElement.style.background='#f0f0f0'">
+        </div>
+        <div class="qr-label">Deja tu Opinión</div>
+        <div class="qr-desc">Escanea el código y cuéntanos<br>cómo fue tu experiencia</div>
+      </div>
+
+      <div class="qr-sep"></div>
+
+      <!-- WiFi -->
+      <div class="qr-card">
+        <div class="qr-badge wifi">WiFi Gratuito</div>
+        <div class="qr-frame">
+          <img src="/images/qr-wifi.png" alt="QR WiFi"
+               onerror="this.parentElement.style.background='#f0f0f0'">
+        </div>
+        <div class="qr-label">Conectarse al WiFi</div>
+        <div class="qr-desc">Escanea para conectarte<br>automáticamente</div>
+        <div class="qr-network">Copacabana-netlife</div>
+      </div>
+
+    </div><!-- /qr-cards -->
+
+  </div><!-- /content -->
+</div><!-- /page 2 -->
 
 </body>
 </html>
