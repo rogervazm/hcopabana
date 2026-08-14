@@ -6,7 +6,10 @@
       "Bash(node -e \"const {createCanvas, loadImage} = require\\('canvas'\\); console.log\\('canvas OK'\\)\")",
       "Bash(node -e \"require\\('sharp'\\); console.log\\('sharp OK'\\)\")",
       "Bash(python3)",
-      "Bash(brew list *)"
+      "Bash(brew list *)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(railway up *)"
     ]
   }
 }
