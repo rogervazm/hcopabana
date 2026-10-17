@@ -28,21 +28,16 @@
 
     #slides { position: fixed; inset: 0; }
 
-    /* --- TRANSITION: z-index + opacity double-guard against ghosting --- */
+    /* --- TRANSITION: display:none eliminates any ghost rendering --- */
     .slide {
       position: absolute; inset: 0;
-      opacity: 0;
-      z-index: 0;          /* non-active slides stay behind */
+      display: none;       /* completely removed from render tree */
       overflow: hidden;
-      display: flex; flex-direction: column;
+      flex-direction: column;
       align-items: center; justify-content: center;
       padding: 2rem 3rem;
     }
-    .slide.active {
-      opacity: 1;
-      z-index: 2;          /* active slide always on top */
-      transition: opacity 0.9s ease;
-    }
+    /* opacity/transition handled 100% by JS inline styles */
 
     /* base dark bg via ::before pseudo-element */
     .slide::before {
@@ -319,7 +314,7 @@
         <div class="card-photo"><img src="/images/hab-mar2.webp" alt="Vista al Mar"></div>
       </div>
       <div class="card hab">
-        <div class="card-photo"><img src="/images/hab-mar3.jpg" alt="Vista al Mar"></div>
+        <div class="card-photo"><img src="/images/hab-mar3.webp" alt="Vista al Mar"></div>
       </div>
     </div>
   </div>
@@ -554,24 +549,24 @@
 
   function jump(n) {
     clearTimeout(tmr); cancelAnimationFrame(raf);
-    // Outgoing: instant hide + drop to z-index:0 via CSS
+    // Outgoing: display:none = completely off, no ghost possible
     const old = SLIDES[cur];
-    old.style.transition = 'none';
-    old.style.opacity = '0';
-    old.style.zIndex = '';           // let CSS .slide { z-index:0 } apply
+    old.style.display    = 'none';
+    old.style.opacity    = '';
+    old.style.transition = '';
     old.classList.remove('active');
     allDots()[cur].classList.remove('on');
     cur = ((n % N) + N) % N;
-    // Incoming: CSS .slide.active gives z-index:2 + opacity:1
+    // Incoming: appear at opacity 0 then fade in
     const neo = SLIDES[cur];
+    neo.style.display    = 'flex';
     neo.style.transition = 'none';
-    neo.style.opacity = '0';
-    neo.style.zIndex = '';
+    neo.style.opacity    = '0';
     neo.classList.add('active');
     allDots()[cur].classList.add('on');
     void neo.offsetWidth;            // force reflow so transition fires
-    neo.style.transition = '';
-    neo.style.opacity = '';
+    neo.style.transition = 'opacity 0.9s ease';
+    neo.style.opacity    = '1';
     run();
   }
 
@@ -594,7 +589,12 @@
   });
   document.addEventListener('click', () => jump(cur + 1));
 
-  SLIDES[0].classList.add('active'); allDots()[0].classList.add('on'); run();
+  // Show first slide immediately without animation
+  SLIDES[0].style.display = 'flex';
+  SLIDES[0].style.opacity = '1';
+  SLIDES[0].classList.add('active');
+  allDots()[0].classList.add('on');
+  run();
 </script>
 </body>
 </html>
