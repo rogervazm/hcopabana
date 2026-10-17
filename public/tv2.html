@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hotel Copacabana</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;600;700;900&family=Oswald:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --naranja: #F28E2E;
+      --amarillo: #EAC832;
+      --morado:   #4E387E;
+      --dark:     #0c0920;
+      --card-bg:  rgba(255,255,255,0.07);
+      --card-br:  rgba(255,255,255,0.13);
+    }
+
+    html, body {
+      width: 100%; height: 100%;
+      overflow: hidden;
+      background: var(--dark);
+      font-family: 'Montserrat', sans-serif;
+      cursor: none;
+    }
+
+    #slides { position: fixed; inset: 0; }
+
+    .slide {
+      position: absolute; inset: 0;
+      opacity: 0; transition: opacity 1.1s ease;
+      overflow: hidden;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 2.5rem 3rem;
+    }
+    .slide.active { opacity: 1; z-index: 1; }
+
+    /* shared dark bg */
+    .slide::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, #0c0920 0%, #1a1240 50%, #0c0920 100%);
+      z-index: 0;
+    }
+
+    /* city-photo bg variant (bienvenida + bodegas) */
+    .city-bg::before {
+      background-image: url('/images/hab-nueva1.webp');
+      background-size: cover; background-position: center;
+    }
+    .city-bg::after {
+      content: ''; position: absolute; inset: 0;
+      background: rgba(8, 4, 18, 0.82);
+      z-index: 0;
+    }
+
+    /* dark ocean bg for turismo/gastro */
+    .ocean-bg::before {
+      background: radial-gradient(ellipse at 30% 40%, #0e3b6e, #06203e 60%, #03101f);
+    }
+    .warm-bg::before {
+      background: radial-gradient(ellipse at 70% 30%, #5c3008, #2d1500 55%, #130800);
+    }
+
+    .slide > * { position: relative; z-index: 1; }
+
+    /* PROGRESS + DOTS */
+    #bar {
+      position: fixed; bottom: 0; left: 0;
+      height: 4px; background: var(--naranja);
+      z-index: 100; width: 0;
+    }
+    #dots {
+      position: fixed; bottom: 14px; left: 50%;
+      transform: translateX(-50%);
+      display: flex; gap: 8px; z-index: 100;
+    }
+    .dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: rgba(255,255,255,0.3); cursor: pointer;
+      transition: background .3s, transform .3s;
+    }
+    .dot.on { background: #fff; transform: scale(1.4); }
+
+    @keyframes kb    { from { transform:scale(1);} to { transform:scale(1.07);} }
+    @keyframes pdot  { 0%,100%{opacity:1;} 50%{opacity:.3;} }
+
+    /* ============================================================ */
+    /* SLIDE 0 — BIENVENIDA                                          */
+    /* ============================================================ */
+    #s0 { text-align: center; }
+    #s0 .logo-wrap {
+      margin-bottom: 1.2rem;
+    }
+    #s0 .logo-wrap img {
+      height: clamp(70px, 10vw, 110px);
+      mix-blend-mode: screen;
+      filter: brightness(1.15);
+    }
+    #s0 .hotel-name {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(4.5rem, 9vw, 9rem);
+      color: var(--amarillo);
+      text-shadow: 0 4px 40px rgba(0,0,0,.9);
+      line-height: 1; margin-bottom: .4rem;
+    }
+    #s0 .sep {
+      width: 80px; height: 2px;
+      background: linear-gradient(to right, transparent, var(--naranja), transparent);
+      margin: .8rem auto 1.2rem;
+    }
+    #s0 .location {
+      font-size: clamp(.9rem,1.5vw,1.2rem);
+      letter-spacing: 5px; text-transform: uppercase;
+      color: rgba(255,255,255,.65); font-weight: 300;
+    }
+
+    /* ============================================================ */
+    /* SHARED CARD LAYOUT                                            */
+    /* ============================================================ */
+    .slide-badge {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: rgba(255,255,255,0.11);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 50px; padding: .35rem 1.1rem;
+      font-size: clamp(.65rem,1vw,.82rem);
+      font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase;
+      color: rgba(255,255,255,.8);
+      margin-bottom: 1rem;
+    }
+    .slide-badge i { color: var(--naranja); }
+
+    .slide-title {
+      font-size: clamp(2rem,4.5vw,3.8rem);
+      font-weight: 900; color: #fff;
+      text-align: center; line-height: 1.1;
+      margin-bottom: .5rem;
+    }
+    .slide-sub {
+      font-size: clamp(.75rem,1.2vw,1rem);
+      color: rgba(255,255,255,.5); text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    /* Cards row */
+    .cards-row {
+      display: flex; gap: clamp(.8rem,1.5vw,1.4rem);
+      width: 100%; max-width: 1100px;
+      justify-content: center;
+    }
+
+    .card {
+      flex: 1;
+      border-radius: 16px; overflow: hidden;
+      background: var(--card-bg);
+      border: 1px solid var(--card-br);
+      display: flex; flex-direction: column;
+    }
+
+    .card-photo {
+      overflow: hidden; flex-shrink: 0;
+    }
+    .card-photo img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+    }
+    .card-info { padding: .85rem 1.1rem; }
+    .card-name {
+      font-weight: 700;
+      font-size: clamp(.85rem,1.4vw,1.1rem);
+      color: #fff; line-height: 1.2;
+    }
+
+    .pill {
+      display: inline-flex; align-items: center; gap: .3rem;
+      background: rgba(242,142,46,0.14);
+      border: 1px solid rgba(242,142,46,0.3);
+      border-radius: 50px; padding: .22rem .65rem;
+      color: var(--naranja);
+      font-size: clamp(.6rem,.9vw,.75rem);
+      font-weight: 600; margin-top: .45rem;
+    }
+    .pill i { font-size: .8em; }
+
+    .pill-green {
+      background: rgba(34,197,94,0.14);
+      border-color: rgba(34,197,94,0.3);
+      color: #4ade80;
+    }
+
+    /* 2 large cards */
+    .cards-2 .card-photo { height: clamp(200px, 28vh, 320px); }
+
+    /* 3 medium cards */
+    .cards-3 .card-photo { height: clamp(160px, 22vh, 260px); }
+
+    /* ============================================================ */
+    /* TURISMO / GASTRO — icon cards                                 */
+    /* ============================================================ */
+    .icon-grid {
+      display: grid; grid-template-columns: repeat(3,1fr);
+      gap: clamp(.7rem,1.3vw,1.2rem);
+      max-width: 900px; width: 100%;
+    }
+    .icon-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-br);
+      border-radius: 14px;
+      padding: clamp(.9rem,1.4vw,1.3rem) 1rem;
+      display: flex; flex-direction: column; align-items: center; gap: .5rem;
+    }
+    .icon-card .ico  { font-size: clamp(1.8rem,2.8vw,2.5rem); }
+    .icon-card .itit { font-family:'Oswald',sans-serif; font-size:clamp(.85rem,1.3vw,1rem); font-weight:600; text-transform:uppercase; letter-spacing:1px; color:#fff; }
+    .icon-card .idsc { font-size:clamp(.6rem,.9vw,.78rem); color:rgba(255,255,255,.55); line-height:1.4; }
+
+    #s-tur .ico { color: #5bc8f5; }
+    #s-tur .icon-card { border-color: rgba(91,200,245,.15); }
+    #s-gas .ico { color: var(--naranja); }
+    #s-gas .icon-card { border-color: rgba(242,142,46,.15); }
+
+    /* ============================================================ */
+    /* BODEGA — phone button                                         */
+    /* ============================================================ */
+    .b-phone-bar {
+      margin-top: 1.5rem;
+      display: flex; align-items: center; justify-content: center; gap: 3rem;
+      flex-wrap: wrap;
+    }
+    .b-phone-btn {
+      display: flex; align-items: center; gap: .7rem;
+      background: #22c55e; color: #fff;
+      padding: .75rem 2.2rem; border-radius: 50px;
+      font-family: 'Oswald', sans-serif;
+      font-size: clamp(1.1rem,2vw,1.6rem);
+      font-weight: 700; letter-spacing: 2px;
+    }
+    .b-location {
+      font-family: 'Oswald', sans-serif;
+      font-size: clamp(.9rem,1.5vw,1.2rem);
+      color: rgba(255,255,255,.6); letter-spacing: 3px; text-transform: uppercase;
+    }
+    .b-avail {
+      display: flex; align-items: center; gap: .45rem;
+      color: #4ade80; font-size: clamp(.7rem,1vw,.9rem);
+      font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+    }
+    .b-avail::before {
+      content: ''; width: 9px; height: 9px;
+      background: #4ade80; border-radius: 50%;
+      animation: pdot 1.5s infinite;
+    }
+  </style>
+</head>
+<body>
+
+<div id="slides">
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- S0 · BIENVENIDA                         -->
+  <!-- ═══════════════════════════════════════ -->
+  <div class="slide city-bg" id="s0">
+    <div class="logo-wrap">
+      <img src="/images/hab-nueva4.webp" alt="Logo Copacabana">
+    </div>
+    <div class="hotel-name">Hotel Copacabana</div>
+    <div class="sep"></div>
+    <div class="location">La Libertad &nbsp;·&nbsp; Santa Elena &nbsp;·&nbsp; Ecuador</div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- S1 · HABITACIONES MATRIMONIALES         -->
+  <!-- ═══════════════════════════════════════ -->
+  <div class="slide" id="s-mat">
+    <div class="slide-badge"><i class="fas fa-bed"></i> Habitaciones</div>
+    <div class="slide-title">Habitaciones Matrimoniales</div>
+    <div class="slide-sub">Cómodas habitaciones para 1 o 2 personas · Hotel Copacabana</div>
+    <div class="cards-row cards-3">
+      <div class="card">
+        <div class="card-photo"><img src="/images/hab-simple.webp" alt="Simple"></div>
+        <div class="card-info">
+          <div class="card-name">Habitación Simple</div>
+          <span class="pill"><i class="fas fa-bed"></i>Para 1–2 personas</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-photo"><img src="/images/hab-estandar.webp" alt="Estándar"></div>
+        <div class="card-info">
+          <div class="card-name">Habitación Estándar</div>
+          <span class="pill"><i class="fas fa-bed"></i>Para 1–2 personas</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-photo"><img src="/images/hab-naranja.webp" alt="Naranja"></div>
+        <div class="card-info">
+          <div class="card-name">Habitación Naranja</div>
+          <span class="pill"><i class="fas fa-bed"></i>Para 1–2 personas</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- S2 · HABITACIONES FAMILIARES            -->
+  <!-- ═══════════════════════════════════════ -->
+  <div class="slide" id="s-fam">
+    <div class="slide-badge"><i class="fas fa-users"></i> Habitaciones</div>
+    <div class="slide-title">Habitaciones Familiares</div>
+    <div class="slide-sub">Espaciosas habitaciones con múltiples camas · Hotel Copacabana</div>
+    <div class="cards-row cards-3">
+      <div class="card">
+        <div class="card-photo"><img src="/images/hab-triple.webp" alt="Triple"></div>
+        <div class="card-info">
+          <div class="card-name">Habitación Triple</div>
+          <span class="pill"><i class="fas fa-users"></i>Para hasta 3 personas</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-photo"><img src="/images/hab-familiar2.webp" alt="Familiar"></div>
+        <div class="card-info">
+          <div class="card-name">Habitación Familiar</div>
+          <span class="pill"><i class="fas fa-users"></i>Ideal para familias</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-photo"><img src="/images/hab-grupal.webp" alt="Grupal"></div>
+        <div class="card-info">
+          <div class="card-name">Habitación Grupal</div>
+          <span class="pill"><i class="fas fa-users"></i>Para grupos</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- S3 · TURISMO                            -->
+  <!-- ═══════════════════════════════════════ -->
+  <div class="slide ocean-bg" id="s-tur">
+    <div class="slide-badge"><i class="fas fa-compass"></i> Turismo</div>
+    <div class="slide-title">Lugares Cercanos al Hotel</div>
+    <div class="slide-sub">Explora la Península de Santa Elena desde La Libertad</div>
+    <div class="icon-grid">
+      <div class="icon-card">
+        <span class="ico"><i class="fas fa-walking"></i></span>
+        <div class="itit">Malecón</div>
+        <div class="idsc">La Libertad<br>A 3 min caminando</div>
+      </div>
+      <div class="icon-card">
+        <span class="ico"><i class="fas fa-monument"></i></span>
+        <div class="itit">Amantes de Sumpa</div>
+        <div class="idsc">Museo Arqueológico<br>A 5 min en auto</div>
+      </div>
+      <div class="icon-card">
+        <span class="ico"><i class="fas fa-umbrella-beach"></i></span>
+        <div class="itit">Salinas</div>
+        <div class="idsc">Playa y vida nocturna<br>A 15 min en auto</div>
+      </div>
+      <div class="icon-card">
+        <span class="ico"><i class="fas fa-water"></i></span>
+        <div class="itit">Ballenita</div>
+        <div class="idsc">Playa tranquila<br>A 10 min en auto</div>
+      </div>
+      <div class="icon-card">
+        <span class="ico"><i class="fas fa-person-surfing"></i></span>
+        <div class="itit">Montañita</div>
+        <div class="idsc">Capital del Surf<br>A 45 min en auto</div>
+      </div>
+      <div class="icon-card">
+        <span class="ico"><i class="fas fa-route"></i></span>
+        <div class="itit">La Chocolatera</div>
+        <div class="idsc">Punta más occidental<br>A 25 min en auto</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- S4 · GASTRONOMÍA                        -->
+  <!-- ═══════════════════════════════════════ -->
+  <div class="slide warm-bg" id="s-gas">
+    <div class="slide-badge"><i class="fas fa-utensils"></i> Gastronomía Local</div>
+    <div class="slide-title">Platos Típicos de la Costa</div>
+    <div class="slide-sub">La cocina costera ecuatoriana, una experiencia que no puedes perderte</div>
+    <div class="icon-grid">
+      <div class="icon-card">
+        <span class="ico"><i class="fas fa-mug-hot"></i></span>
+        <div class="itit">Encebollado</div>
+        <div class="idsc">Sopa de albacora con yuca<br>y cebolla encurtida</div>
+      </div>
+      <div class="icon-card">
+        <span class="ico"><i class="fas fa-bowl-rice"></i></span>
+        <div class="itit">Ceviche</div>
+        <div class="idsc">Camarón · Concha<br>Corvina · Langosta</div>
+      </div>
+      <div class="icon-card">
+        <span class="ico"><i class="fas fa-bread-slice"></i></span>
+        <div class="itit">Bolón de Verde</div>
+        <div class="idsc">Desayuno costero<br>tradicional</div>
+      </div>
+      <div class="icon-card">
+        <span class="ico"><i class="fas fa-fish"></i></span>
+        <div class="itit">Pescado Entero</div>
+        <div class="idsc">Con patacones, arroz<br>y ensalada fresca</div>
+      </div>
+      <div class="icon-card">
+        <span class="ico"><i class="fas fa-drumstick-bite"></i></span>
+        <div class="itit">Seco de Mariscos</div>
+        <div class="idsc">Con arroz y menestra<br>estilo peninsular</div>
+      </div>
+      <div class="icon-card">
+        <span class="ico"><i class="fas fa-fire"></i></span>
+        <div class="itit">Cazuela de Mariscos</div>
+        <div class="idsc">En salsa criolla<br>de maní</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- S5 · BODEGA 1 — A (2 fotos grandes)     -->
+  <!-- ═══════════════════════════════════════ -->
+  <div class="slide city-bg" id="s-b1a">
+    <div class="slide-badge"><i class="fas fa-warehouse"></i> Se Alquila</div>
+    <div class="slide-title">Ofibodega &nbsp;·&nbsp; La Libertad</div>
+    <div class="slide-sub">Bodega Industrial · Oficinas · Sala de Reuniones · Patio de Maniobras</div>
+    <div class="cards-row cards-2">
+      <div class="card">
+        <div class="card-photo"><img src="/images/bod1-fachada.webp" alt="Fachada"></div>
+        <div class="card-info">
+          <div class="card-name">Fachada Principal</div>
+          <span class="pill"><i class="fas fa-location-dot"></i>La Libertad, Santa Elena</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-photo"><img src="/images/bod1-interior.webp" alt="Bodega"></div>
+        <div class="card-info">
+          <div class="card-name">Bodega Industrial</div>
+          <span class="pill"><i class="fas fa-warehouse"></i>Área amplia de uso industrial</span>
+        </div>
+      </div>
+    </div>
+    <div class="b-phone-bar">
+      <div class="b-location"><i class="fas fa-location-dot" style="color:var(--naranja);margin-right:.4rem"></i>La Libertad · Santa Elena</div>
+      <a class="b-phone-btn"><i class="fab fa-whatsapp"></i>0981703065</a>
+      <div class="b-avail">Disponible Ahora</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- S6 · BODEGA 1 — B (3 fotos)             -->
+  <!-- ═══════════════════════════════════════ -->
+  <div class="slide city-bg" id="s-b1b">
+    <div class="slide-badge"><i class="fas fa-warehouse"></i> Ofibodega · La Libertad</div>
+    <div class="slide-title">Más Espacios Disponibles</div>
+    <div class="slide-sub">Nave industrial · Oficinas administrativas · Vista exterior</div>
+    <div class="cards-row cards-3">
+      <div class="card">
+        <div class="card-photo"><img src="/images/bod1-fachada2.webp" alt="Vista exterior"></div>
+        <div class="card-info">
+          <div class="card-name">Vista Exterior</div>
+          <span class="pill"><i class="fas fa-building"></i>Fachada lateral</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-photo"><img src="/images/bod1-nave.webp" alt="Nave"></div>
+        <div class="card-info">
+          <div class="card-name">Nave Industrial</div>
+          <span class="pill"><i class="fas fa-warehouse"></i>Gran capacidad</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-photo"><img src="/images/bod1-oficinas.webp" alt="Oficinas"></div>
+        <div class="card-info">
+          <div class="card-name">Oficinas</div>
+          <span class="pill"><i class="fas fa-briefcase"></i>Administrativas</span>
+        </div>
+      </div>
+    </div>
+    <div class="b-phone-bar">
+      <a class="b-phone-btn"><i class="fab fa-whatsapp"></i>0981703065</a>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- S7 · BODEGA 2 — A (2 fotos grandes)     -->
+  <!-- ═══════════════════════════════════════ -->
+  <div class="slide city-bg" id="s-b2a">
+    <div class="slide-badge"><i class="fas fa-warehouse"></i> Se Alquila</div>
+    <div class="slide-title">Ofibodega &nbsp;·&nbsp; 7 Esquinas</div>
+    <div class="slide-sub">Bodega + Mezanine · Oficinas · Laboratorio · Sala de Reuniones</div>
+    <div class="cards-row cards-2">
+      <div class="card">
+        <div class="card-photo"><img src="/images/bod2-fachada.webp" alt="Fachada"></div>
+        <div class="card-info">
+          <div class="card-name">Fachada Principal</div>
+          <span class="pill"><i class="fas fa-location-dot"></i>7 Esquinas · La Libertad</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-photo"><img src="/images/bod2-mezzanine.webp" alt="Bodega"></div>
+        <div class="card-info">
+          <div class="card-name">Bodega con Mezanine</div>
+          <span class="pill"><i class="fas fa-warehouse"></i>Nivel inferior + mezanine</span>
+        </div>
+      </div>
+    </div>
+    <div class="b-phone-bar">
+      <div class="b-location"><i class="fas fa-location-dot" style="color:var(--naranja);margin-right:.4rem"></i>7 Esquinas · La Libertad · Santa Elena</div>
+      <a class="b-phone-btn"><i class="fab fa-whatsapp"></i>0981703065</a>
+      <div class="b-avail">Disponible Ahora</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- S8 · BODEGA 2 — B (3 fotos)             -->
+  <!-- ═══════════════════════════════════════ -->
+  <div class="slide city-bg" id="s-b2b">
+    <div class="slide-badge"><i class="fas fa-warehouse"></i> Ofibodega · 7 Esquinas</div>
+    <div class="slide-title">Laboratorio · Sala · Oficina</div>
+    <div class="slide-sub">Espacios equipados para su empresa · La Libertad, Santa Elena</div>
+    <div class="cards-row cards-3">
+      <div class="card">
+        <div class="card-photo"><img src="/images/bod2-lab.webp" alt="Laboratorio"></div>
+        <div class="card-info">
+          <div class="card-name">Laboratorio</div>
+          <span class="pill"><i class="fas fa-flask"></i>Equipado con mesones</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-photo"><img src="/images/bod2-sala.webp" alt="Sala"></div>
+        <div class="card-info">
+          <div class="card-name">Sala de Reuniones</div>
+          <span class="pill"><i class="fas fa-users"></i>Con A/C y diseño</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-photo"><img src="/images/bod2-oficina.webp" alt="Oficina"></div>
+        <div class="card-info">
+          <div class="card-name">Oficina Privada</div>
+          <span class="pill"><i class="fas fa-briefcase"></i>Espacio ejecutivo</span>
+        </div>
+      </div>
+    </div>
+    <div class="b-phone-bar">
+      <a class="b-phone-btn"><i class="fab fa-whatsapp"></i>0981703065</a>
+    </div>
+  </div>
+
+</div><!-- #slides -->
+
+<div id="bar"></div>
+<div id="dots"></div>
+
+<script>
+  const SLIDES = [...document.querySelectorAll('.slide')];
+  const N      = SLIDES.length;
+  const DUR_H  = 13000;
+  const DUR_I  = 15000;
+  const DUR_B  = 28000;
+
+  let cur = 0, raf = null, tmr = null, t0 = null;
+
+  const bar  = document.getElementById('bar');
+  const dots = document.getElementById('dots');
+
+  SLIDES.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'dot'; d.onclick = () => jump(i);
+    dots.appendChild(d);
+  });
+
+  function dur() {
+    const id = SLIDES[cur].id;
+    if (id.startsWith('s-b')) return DUR_B;
+    if (id === 's-tur' || id === 's-gas') return DUR_I;
+    return DUR_H;
+  }
+
+  function allDots() { return dots.querySelectorAll('.dot'); }
+
+  function jump(n) {
+    clearTimeout(tmr); cancelAnimationFrame(raf);
+    SLIDES[cur].classList.remove('active');
+    allDots()[cur].classList.remove('on');
+    cur = ((n % N) + N) % N;
+    SLIDES[cur].classList.add('active');
+    allDots()[cur].classList.add('on');
+    run();
+  }
+
+  function run() {
+    bar.style.transition = 'none'; bar.style.width = '0';
+    t0 = performance.now();
+    const d = dur();
+    (function frame(now) {
+      const p = Math.min(100, (now - t0) / d * 100);
+      bar.style.width = p + '%';
+      if (p < 100) raf = requestAnimationFrame(frame);
+    })(t0);
+    tmr = setTimeout(() => jump(cur + 1), d);
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === ' ') jump(cur + 1);
+    if (e.key === 'ArrowLeft') jump(cur - 1);
+    if (e.key === 'f' || e.key === 'F') document.documentElement.requestFullscreen?.();
+  });
+  document.addEventListener('click', () => jump(cur + 1));
+
+  SLIDES[0].classList.add('active'); allDots()[0].classList.add('on'); run();
+</script>
+</body>
+</html>
