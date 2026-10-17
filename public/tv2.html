@@ -28,10 +28,11 @@
 
     #slides { position: fixed; inset: 0; }
 
-    /* --- TRANSITION: only INCOMING slides animate in --- */
+    /* --- TRANSITION: z-index + opacity double-guard against ghosting --- */
     .slide {
       position: absolute; inset: 0;
       opacity: 0;
+      z-index: 0;          /* non-active slides stay behind */
       overflow: hidden;
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
@@ -39,7 +40,7 @@
     }
     .slide.active {
       opacity: 1;
-      z-index: 1;
+      z-index: 2;          /* active slide always on top */
       transition: opacity 0.9s ease;
     }
 
@@ -78,6 +79,9 @@
 
     #s-b2b::before { background: url('/images/city-dia3.webp') center/cover no-repeat; }
     #s-b2b::after  { content:''; position:absolute; inset:0; background:rgba(4,1,14,0.68); z-index:0; }
+
+    #s-mar::before { background: url('/images/city-malecon.webp') center/cover no-repeat; }
+    #s-mar::after  { content:''; position:absolute; inset:0; background:rgba(2,8,20,0.68); z-index:0; }
 
     /* all slide content above pseudo-elements */
     .slide > * { position: relative; z-index: 1; }
@@ -203,10 +207,10 @@
       border-radius: 8px;
     }
     .card.hab .card-photo {
-      aspect-ratio: 4/3;
-      height: auto;
+      height: clamp(300px, 44vh, 480px);
       border-radius: 8px;
       overflow: hidden;
+      flex-shrink: 0;
     }
     .card.hab .card-info { display: none; }
 
@@ -302,7 +306,25 @@
     </div>
   </div>
 
-  <!-- S3 · TURISMO -->
+  <!-- S3 · HABITACIONES VISTA AL MAR -->
+  <div class="slide" id="s-mar">
+    <div class="slide-badge"><i class="fas fa-water"></i> Habitaciones</div>
+    <div class="slide-title">Habitaciones Vista al Mar</div>
+    <div class="slide-sub">Despierta con el mar frente a ti · Hotel Copacabana · La Libertad</div>
+    <div class="cards-row">
+      <div class="card hab">
+        <div class="card-photo"><img src="/images/hab-mar1.webp" alt="Vista al Mar"></div>
+      </div>
+      <div class="card hab">
+        <div class="card-photo"><img src="/images/hab-mar2.webp" alt="Vista al Mar"></div>
+      </div>
+      <div class="card hab">
+        <div class="card-photo"><img src="/images/hab-mar3.jpg" alt="Vista al Mar"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S4 · TURISMO -->
   <div class="slide" id="s-tur">
     <div class="slide-badge"><i class="fas fa-compass"></i> Turismo</div>
     <div class="slide-title">Lugares Cercanos al Hotel</div>
@@ -532,21 +554,22 @@
 
   function jump(n) {
     clearTimeout(tmr); cancelAnimationFrame(raf);
-    // Outgoing slide: instantly hidden (no overlap)
+    // Outgoing: instant hide + drop to z-index:0 via CSS
     const old = SLIDES[cur];
     old.style.transition = 'none';
     old.style.opacity = '0';
+    old.style.zIndex = '';           // let CSS .slide { z-index:0 } apply
     old.classList.remove('active');
     allDots()[cur].classList.remove('on');
     cur = ((n % N) + N) % N;
-    // Incoming slide: resets style, then CSS transition kicks in
+    // Incoming: CSS .slide.active gives z-index:2 + opacity:1
     const neo = SLIDES[cur];
     neo.style.transition = 'none';
     neo.style.opacity = '0';
+    neo.style.zIndex = '';
     neo.classList.add('active');
     allDots()[cur].classList.add('on');
-    // Force reflow so transition fires
-    void neo.offsetWidth;
+    void neo.offsetWidth;            // force reflow so transition fires
     neo.style.transition = '';
     neo.style.opacity = '';
     run();
