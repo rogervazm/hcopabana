@@ -201,15 +201,14 @@
     }
     .pill i { font-size: .8em; }
 
-    /* HABITACIONES — landscape 16:9 rectangle, no label */
+    /* HABITACIONES — big landscape rectangle, no label */
     .card.hab {
       background: transparent;
       border: none;
       border-radius: 8px;
     }
     .card.hab .card-photo {
-      aspect-ratio: 16/9;
-      min-height: 180px;
+      height: clamp(260px, 46vh, 520px);
       border-radius: 8px;
       overflow: hidden;
       flex-shrink: 0;
@@ -221,9 +220,21 @@
     .cards-4 { max-width: 1280px; }
     .cards-4 .card-photo { height: clamp(160px, 22vh, 260px); }
 
-    /* BODEGAS — landscape 16:9, bigger */
-    .cards-2 .card-photo { aspect-ratio: 16/9; min-height: 200px; width: 100%; }
-    .cards-3 .card-photo { aspect-ratio: 4/3;  min-height: 180px; width: 100%; }
+    /* BODEGAS — big landscape rectangles */
+    .cards-2 .card-photo { height: clamp(260px, 40vh, 460px); width: 100%; }
+    .cards-3 .card-photo { height: clamp(200px, 32vh, 380px); width: 100%; }
+
+    /* SE ALQUILA — big red heading on bodega slides */
+    .se-alquila {
+      font-size: clamp(2.8rem, 6vw, 5.5rem);
+      font-weight: 900;
+      color: #ff3333;
+      text-transform: uppercase;
+      letter-spacing: 6px;
+      line-height: 1;
+      text-shadow: 0 2px 24px rgba(255,40,40,0.45);
+      margin-bottom: .4rem;
+    }
 
     /* ============================================================ */
     /* BODEGA PHONE BAR                                              */
@@ -403,8 +414,8 @@
 
   <!-- S6 · BODEGA 1 — A -->
   <div class="slide" id="s-b1a">
-    <div class="slide-badge badge-red"><i class="fas fa-warehouse"></i> Se Alquila · Ofibodega</div>
-    <div class="slide-title">Ofibodega &nbsp;·&nbsp; La Libertad</div>
+    <div class="slide-badge badge-red"><i class="fas fa-warehouse"></i> Ofibodega · La Libertad</div>
+    <div class="se-alquila">SE ALQUILA</div>
     <div class="slide-sub">Bodega Industrial · Oficinas · Sala de Reuniones · Patio de Maniobras</div>
     <div class="cards-row cards-2">
       <div class="card">
@@ -431,8 +442,8 @@
 
   <!-- S7 · BODEGA 1 — B -->
   <div class="slide" id="s-b1b">
-    <div class="slide-badge badge-red"><i class="fas fa-warehouse"></i> Se Alquila · Ofibodega</div>
-    <div class="slide-title">Más Espacios Disponibles</div>
+    <div class="slide-badge badge-red"><i class="fas fa-warehouse"></i> Ofibodega · La Libertad</div>
+    <div class="se-alquila">SE ALQUILA</div>
     <div class="slide-sub">Nave industrial · Oficinas administrativas · Vista exterior</div>
     <div class="cards-row cards-3">
       <div class="card">
@@ -464,8 +475,8 @@
 
   <!-- S8 · BODEGA 2 — A -->
   <div class="slide" id="s-b2a">
-    <div class="slide-badge badge-red"><i class="fas fa-warehouse"></i> Se Alquila · Ofibodega</div>
-    <div class="slide-title">Ofibodega &nbsp;·&nbsp; 7 Esquinas</div>
+    <div class="slide-badge badge-red"><i class="fas fa-warehouse"></i> Ofibodega · 7 Esquinas</div>
+    <div class="se-alquila">SE ALQUILA</div>
     <div class="slide-sub">Bodega + Mezanine · Oficinas · Laboratorio · Sala de Reuniones</div>
     <div class="cards-row cards-2">
       <div class="card">
@@ -492,8 +503,8 @@
 
   <!-- S9 · BODEGA 2 — B -->
   <div class="slide" id="s-b2b">
-    <div class="slide-badge badge-red"><i class="fas fa-warehouse"></i> Se Alquila · Ofibodega</div>
-    <div class="slide-title">Laboratorio · Sala · Oficina</div>
+    <div class="slide-badge badge-red"><i class="fas fa-warehouse"></i> Ofibodega · 7 Esquinas</div>
+    <div class="se-alquila">SE ALQUILA</div>
     <div class="slide-sub">Espacios equipados para su empresa · La Libertad, Santa Elena</div>
     <div class="cards-row cards-3">
       <div class="card">
